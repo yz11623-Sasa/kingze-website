@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
+// --- FIXED: Simplified imports and used more standard icons to prevent errors ---
 import { 
   Menu, X, Globe, ArrowRight, Mail, Phone, MapPin, 
-  ChevronRight, ShieldCheck, Layers, Anchor, Wind,
-  CheckCircle, Package, FileText, Flame, Droplets, Construction, Factory, Zap
+  ChevronRight, CheckCircle, Package, FileText, Flame, Droplet, Hammer, Factory, Zap, Wind, Layers
 } from 'lucide-react';
 
 // --- Configuration ---
@@ -84,15 +84,15 @@ const productsData = [
       { label: "Weave", value: "Leno" }
     ],
     images: [
-      "/mesh-white-standard.jpg", // (图4) 主图
-      "/mesh-blue-functional.jpg", // (图5) 蓝色款
-      "/mesh-multicolor-rolls.jpg", // (图6) 多色展示
-      "/mesh-seaming-line.jpg", // (图7) 缝线款
-      "/eifs-structure-diagram.jpg", // (图8) 结构图
-      "/insulation-detail-closeup.jpg", // (图9) 细节
-      "/mesh-application-values.jpg", // (图10) 应用场景
-      "/mesh-construction-worker.jpg", // (图11) 施工场景
-      "/mesh-project-building.jpg"  // (图12) 完工效果
+      "/mesh-white-standard.jpg", 
+      "/mesh-blue-functional.jpg", 
+      "/mesh-multicolor-rolls.jpg", 
+      "/mesh-seaming-line.jpg", 
+      "/eifs-structure-diagram.jpg", 
+      "/insulation-detail-closeup.jpg", 
+      "/mesh-application-values.jpg", 
+      "/mesh-construction-worker.jpg", 
+      "/mesh-project-building.jpg"
     ]
   },
   {
@@ -123,10 +123,6 @@ const productsData = [
       { label: "Temp Resistance", value: "< 550℃" },
       { label: "Weight", value: "200g/m² (Typical)" }
     ],
-    // 如果没有cloth specific图片，这里您可以复用工厂图或者暂时保留网络图，
-    // 但根据您的描述，您主要提供了网格布和接缝带的详细图。
-    // 这里我为了保险，暂时保留网络图，如果您有对应的 cloth.jpg 请自行替换。
-    // *假设* 您没有提供专门的 7628 布图片，我保留网络高清图以免空白。
     images: [
       "https://images.unsplash.com/photo-1520694478166-daaaaec95b69?auto=format&fit=crop&q=80&w=800",
       "https://images.unsplash.com/photo-1615822461461-6e3040254b4f?auto=format&fit=crop&q=80&w=800"
@@ -157,8 +153,8 @@ const productsData = [
       { label: "Temp", value: "550℃" }
     ],
     images: [
-      "/texturized-fabric-texture.jpg", // (图13) 纹理细节
-      "/texturized-fabric-folded.jpg"   // (图14) 折叠展示
+      "/texturized-fabric-texture.jpg", 
+      "/texturized-fabric-folded.jpg"
     ]
   },
   {
@@ -186,12 +182,12 @@ const productsData = [
       { label: "Width", value: "48mm / 50mm / 100mm" }
     ],
     images: [
-      "/drywall-tape-sizes.jpg", // (图15) 多规格
-      "/drywall-tape-large-roll.jpg", // (图16) 大卷工业装
-      "/drywall-tape-yellow.jpg", // (图17) 黄色款
-      "/drywall-tape-twin-pack.jpg", // (图18) 双卷包装
-      "/drywall-tape-detail.jpg", // (图19) 网格细节
-      "/drywall-tape-application.jpg"  // (图20) 施工应用
+      "/drywall-tape-sizes.jpg", 
+      "/drywall-tape-large-roll.jpg", 
+      "/drywall-tape-yellow.jpg", 
+      "/drywall-tape-twin-pack.jpg", 
+      "/drywall-tape-detail.jpg", 
+      "/drywall-tape-application.jpg"
     ]
   }
 ];
@@ -203,10 +199,15 @@ const Navbar = ({ currentPage, setPage, isMobileMenuOpen, setIsMobileMenuOpen })
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex items-center justify-between h-20">
         <div 
-          className="flex-shrink-0 font-bold text-xl tracking-wider cursor-pointer flex items-center gap-2"
+          className="flex-shrink-0 font-bold text-xl tracking-wider cursor-pointer flex items-center gap-3"
           onClick={() => setPage('home')}
         >
-          <Layers className="text-blue-500" />
+          <img 
+            src="/logo-icon.png" 
+            alt="Kingze Logo" 
+            className="h-10 w-10 object-contain"
+            onError={(e) => {e.target.style.display = 'none';}} 
+          />
           <div className="flex flex-col">
             <span className="leading-none">KINGZE</span>
             <span className="text-[10px] text-slate-400 font-normal tracking-widest">COMPOSITES</span>
@@ -309,7 +310,7 @@ const Hero = ({ setPage }) => (
 const Features = () => {
   const featuresList = [
     { 
-      icon: <Construction size={32} />, 
+      icon: <Hammer size={32} />, // Replaced Construction with Hammer
       title: "Reinforcement", 
       desc: "High tensile strength solutions for construction stability." 
     },
@@ -319,7 +320,7 @@ const Features = () => {
       desc: "Non-combustible materials withstanding up to 550℃." 
     },
     { 
-      icon: <Droplets size={32} />, 
+      icon: <Droplet size={32} />, // Replaced Droplets with Droplet
       title: "Waterproof & Breathable", 
       desc: "Acrylic coatings that block moisture while allowing vapor escape." 
     },
@@ -426,7 +427,6 @@ const ProductDetail = ({ product, onBack, onInquire, onProductClick }) => {
           </button>
         </div>
         
-        {/* Top: Gallery & Summary */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
           <div className="flex flex-col gap-4">
             <div className="rounded-xl overflow-hidden shadow-lg bg-slate-100 border border-slate-200 aspect-w-4 aspect-h-3 h-[400px]">
@@ -459,14 +459,12 @@ const ProductDetail = ({ product, onBack, onInquire, onProductClick }) => {
               {product.name}
             </h1>
             
-            {/* Summary */}
             <div className="bg-blue-50 border-l-4 border-blue-600 p-4 mb-8">
               <p className="text-lg text-slate-800 font-medium italic">
                 {product.summary}
               </p>
             </div>
 
-            {/* Main Description */}
             <div className="bg-slate-50 rounded-lg p-6 border border-slate-200 mb-8">
               <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4 flex items-center gap-2">
                 <FileText size={16} /> {content.detail.specs}
@@ -496,16 +494,13 @@ const ProductDetail = ({ product, onBack, onInquire, onProductClick }) => {
           </div>
         </div>
 
-        {/* Middle: Technical Content (Long Form) */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-20">
           
-          {/* Main Description Column (Span 2) */}
           <div className="lg:col-span-2">
             <h3 className="text-2xl font-bold text-slate-900 mb-6 pb-2 border-b border-slate-200">
               {content.detail.desc}
             </h3>
             <div className="prose prose-slate max-w-none text-slate-600">
-              {/* Rendering Long Text Blocks */}
               {product.descriptionBlocks && product.descriptionBlocks.map((block, i) => (
                 <p key={i} className="mb-4 text-lg leading-relaxed text-justify">
                   {block}
@@ -514,7 +509,6 @@ const ProductDetail = ({ product, onBack, onInquire, onProductClick }) => {
             </div>
           </div>
 
-          {/* Sidebar: Features & Applications (Span 1) */}
           <div className="flex flex-col gap-8">
             <div className="bg-slate-50 rounded-xl p-8 border border-slate-100">
               <div className="flex items-center gap-2 mb-6 text-blue-800">
@@ -553,7 +547,6 @@ const ProductDetail = ({ product, onBack, onInquire, onProductClick }) => {
           </div>
         </div>
 
-        {/* Related Products */}
         <div className="border-t border-slate-200 pt-16">
           <h2 className="text-2xl font-bold text-slate-900 mb-8">{content.products.related}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -580,10 +573,8 @@ const AboutSection = () => (
         <div className="w-24 h-1 bg-blue-600 mx-auto mt-4 rounded-full hidden lg:block"></div>
       </div>
       
-      {/* 3 Images Factory Showcase */}
       <div className="mb-16 grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="relative group overflow-hidden rounded-xl shadow-md h-64">
-           {/* (图1) */}
            <img className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" 
                 src="/factory-production-line.jpg" 
                 alt="Production Line" />
@@ -595,7 +586,6 @@ const AboutSection = () => (
            </div>
         </div>
         <div className="relative group overflow-hidden rounded-xl shadow-md h-64">
-           {/* (图2) */}
            <img className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" 
                 src="/factory-weaving-process.jpg" 
                 alt="Weaving Process" />
@@ -607,7 +597,6 @@ const AboutSection = () => (
            </div>
         </div>
         <div className="relative group overflow-hidden rounded-xl shadow-md h-64">
-           {/* (图3) */}
            <img className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" 
                 src="/factory-workshop-overview.jpg" 
                 alt="Workshop Overview" />
@@ -630,7 +619,6 @@ const AboutSection = () => (
           </blockquote>
         </div>
         
-        {/* Stats Section */}
         <div className="grid grid-cols-2 gap-4">
            <div className="bg-blue-900 text-white p-8 rounded-lg text-center shadow-lg">
               <span className="block text-4xl font-extrabold mb-2">2014</span>
@@ -647,7 +635,6 @@ const AboutSection = () => (
         </div>
       </div>
       
-      {/* Export Markets Bar */}
       <div className="mt-20 border-t border-slate-200 pt-10">
         <p className="text-center text-sm font-bold text-slate-400 uppercase tracking-widest mb-8">Global Export Markets</p>
         <div className="flex flex-wrap justify-center gap-x-12 gap-y-4 text-slate-500 font-semibold">
@@ -666,161 +653,19 @@ const AboutSection = () => (
   </div>
 );
 
-const ContactSection = ({ initialMessage }) => {
-  const [formState, setFormState] = useState({
-    name: '',
-    email: '',
-    message: initialMessage || ''
-  });
-  const [status, setStatus] = useState(null); 
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!formState.name || !formState.email || !formState.message) {
-      setStatus('error');
-      return;
-    }
-    
-    setStatus('sending');
-
-    try {
-      const response = await fetch(FORMSPREE_ENDPOINT, {
-        method: "POST",
-        body: JSON.stringify(formState),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        setStatus('success');
-        setFormState({ name: '', email: '', message: '' }); 
-        setTimeout(() => setStatus(null), 5000);
-      } else {
-        setStatus('error');
-      }
-    } catch (error) {
-      setStatus('error');
-    }
-  };
-
-  return (
-    <div className="py-20 bg-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-extrabold text-slate-900">{content.contact.title}</h2>
-          <p className="mt-4 text-lg text-slate-500">{content.contact.subtitle}</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="col-span-1 bg-slate-900 text-white rounded-xl p-8 flex flex-col justify-between">
-             <div>
-               <h3 className="font-bold text-lg mb-6">Contact Info</h3>
-               <div className="space-y-6">
-                 <div className="flex items-start gap-3">
-                   <MapPin className="text-blue-400 mt-1" size={20} />
-                   <p className="text-sm text-slate-300 leading-relaxed">
-                     Changzhou Kingze Composite Materials Co.,Ltd.<br/>
-                     Changzhou, Jiangsu, China
-                   </p>
-                 </div>
-                 <div className="flex items-center gap-3">
-                   <Mail className="text-blue-400" size={20} />
-                   <p className="text-sm text-slate-300">sales@kingze-composites.com</p>
-                 </div>
-                 <div className="flex items-center gap-3">
-                   <Phone className="text-blue-400" size={20} />
-                   <p className="text-sm text-slate-300">+86 138 0000 0000</p>
-                 </div>
-               </div>
-             </div>
-             <div className="mt-8 pt-8 border-t border-slate-700">
-               <p className="text-xs text-slate-500">Working Hours: Mon-Fri, 9am - 6pm (GMT+8)</p>
-             </div>
-          </div>
-
-          <div className="col-span-2 bg-slate-50 shadow-lg rounded-xl p-8 border border-slate-100">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">{content.contact.name}</label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formState.name}
-                    onChange={(e) => setFormState({...formState, name: e.target.value})}
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white py-3 px-4 border"
-                    placeholder="John Doe"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">{content.contact.email}</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formState.email}
-                    onChange={(e) => setFormState({...formState, email: e.target.value})}
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white py-3 px-4 border"
-                    placeholder="john@company.com"
-                    required
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2">{content.contact.message}</label>
-                <textarea
-                  rows={4}
-                  name="message"
-                  value={formState.message}
-                  onChange={(e) => setFormState({...formState, message: e.target.value})}
-                  className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white py-3 px-4 border"
-                  placeholder="I am interested in..."
-                  required
-                />
-              </div>
-
-              {status === 'error' && (
-                <div className="text-red-600 text-sm text-center bg-red-50 p-3 rounded-md font-medium">
-                  {content.contact.error}
-                </div>
-              )}
-              
-              {status === 'success' && (
-                <div className="text-green-600 text-sm text-center bg-green-50 p-3 rounded-md font-medium">
-                  {content.contact.success}
-                </div>
-              )}
-              
-              {status === 'sending' && (
-                <div className="text-blue-600 text-sm text-center bg-blue-50 p-3 rounded-md font-medium">
-                  {content.contact.sending}
-                </div>
-              )}
-
-              <button
-                type="submit"
-                disabled={status === 'sending'}
-                className={`w-full flex justify-center py-4 px-4 border border-transparent rounded-md shadow-lg text-base font-bold text-white ${status === 'sending' ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all`}
-              >
-                {status === 'sending' ? content.contact.sending : content.contact.submit}
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 const Footer = ({ setPage }) => (
   <footer className="bg-slate-900 text-slate-300 py-16 border-t border-slate-800">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
         <div className="col-span-1 md:col-span-2">
-          <div className="flex items-center gap-2 text-white font-bold text-2xl mb-6">
-             <Layers className="text-blue-500" /> KINGZE
+          <div className="flex items-center gap-3 text-white font-bold text-2xl mb-6">
+             <img 
+                src="/logo-icon.png" 
+                alt="Kingze Logo" 
+                className="h-10 w-10 object-contain"
+                onError={(e) => {e.target.style.display = 'none';}}
+             />
+             <span>KINGZE</span>
           </div>
           <p className="text-sm text-slate-400 leading-relaxed max-w-sm mb-6">
             Changzhou Kingze Composite Materials Co.,Ltd.<br/>
