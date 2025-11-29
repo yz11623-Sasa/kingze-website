@@ -2,289 +2,246 @@ import React, { useState, useEffect } from 'react';
 import { 
   Menu, X, Globe, ArrowRight, Mail, Phone, MapPin, 
   ChevronRight, ShieldCheck, Layers, Anchor, Wind,
-  CheckCircle, Package, FileText
+  CheckCircle, Package, FileText, Flame, Droplets, Construction, Factory, Zap
 } from 'lucide-react';
 
-// --- Mock Data & Translations ---
+// --- Configuration ---
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/xmqnbwky"; 
 
-const translations = {
-  en: {
-    nav: {
-      home: "Home",
-      products: "Products",
-      about: "About Us",
-      contact: "Contact",
-    },
-    hero: {
-      title: "Advanced Fiberglass Composite Solutions",
-      subtitle: "Direct export of premium Fiberglass Roving, Woven Roving, and Industrial Insulation materials.",
-      cta: "Explore Products",
-    },
-    features: {
-      quality: "ISO 9001 Certified",
-      global: "Global Export Logistics",
-      tech: "Advanced Manufacturing",
-    },
-    products: {
-      title: "Our Product Range",
-      subtitle: "High-performance materials for construction, marine, and wind energy sectors.",
-      viewDetails: "View Specifications",
-      back: "Back to Products",
-      inquire: "Inquire About This Product",
-      related: "Related Products",
-    },
-    detail: {
-      desc: "Product Description",
-      features: "Key Features",
-      apps: "Applications",
-      packaging: "Packaging & Storage",
-      specs: "Technical Data",
-    },
-    about: {
-      title: "About Kingze",
-      p1: "Kingze Composites is a leading manufacturer specializing in high-performance fiberglass materials. With over 20 years of industry experience, we provide robust solutions for the global composite market.",
-      p2: "Our state-of-the-art facility produces Direct Roving, Assembled Roving, and Electronic Grade fabrics tailored for complex industrial applications.",
-      mission: "Our Mission: To reinforce the world with strength and sustainability.",
-    },
-    contact: {
-      title: "Get in Touch",
-      subtitle: "Ready to order? Need a technical data sheet? Send us a message.",
-      name: "Your Name",
-      email: "Email Address",
-      message: "Message / Inquiry",
-      submit: "Send Inquiry",
-      success: "Thank you! We have received your inquiry.",
-      error: "Please fill in all fields correctly.",
-    }
+// --- Content & Data ---
+const content = {
+  nav: {
+    home: "Home",
+    products: "Products",
+    about: "About Us",
+    contact: "Contact",
+    languages: "Global Sites",
   },
-  zh: {
-    nav: {
-      home: "首页",
-      products: "产品中心",
-      about: "关于我们",
-      contact: "联系我们",
-    },
-    hero: {
-      title: "先进玻璃纤维复合材料解决方案",
-      subtitle: "专业出口优质无捻粗纱、方格布及工业绝缘材料。",
-      cta: "浏览产品",
-    },
-    features: {
-      quality: "ISO 9001 认证",
-      global: "全球出口物流",
-      tech: "先进制造工艺",
-    },
-    products: {
-      title: "产品系列",
-      subtitle: "用于建筑、船舶和风能领域的高性能材料。",
-      viewDetails: "查看规格",
-      back: "返回产品列表",
-      inquire: "咨询此产品",
-      related: "相关产品推荐",
-    },
-    detail: {
-      desc: "产品描述",
-      features: "主要特点",
-      apps: "应用领域",
-      packaging: "包装与储存",
-      specs: "技术参数",
-    },
-    about: {
-      title: "关于 Kingze",
-      p1: "Kingze Composites 是一家专注于高性能玻璃纤维材料的领先制造商。凭借超过20年的行业经验，我们为全球复合材料市场提供强有力的解决方案。",
-      p2: "我们拥有最先进的生产设施，生产专为复杂工业应用量身定制的直接粗纱、合股粗纱和电子级织物。",
-      mission: "我们的使命：以力量和可持续性以此加固世界。",
-    },
-    contact: {
-      title: "联系我们",
-      subtitle: "准备订购？需要技术数据表？请给我们留言。",
-      name: "您的姓名",
-      email: "电子邮箱",
-      message: "留言 / 询价",
-      submit: "发送询盘",
-      success: "谢谢！我们已收到您的询价。",
-      error: "请正确填写所有字段。",
-    }
+  hero: {
+    title: "ADVANCED FIBERGLASS TEXTILES",
+    subtitle: "Professional manufacturer of Fiberglass Mesh, Cloth, and Fabric. Reinforcing the world with strength and sustainability since 2014.",
+    cta: "Explore Solutions",
+  },
+  products: {
+    title: "Our Product Range",
+    subtitle: "High-performance materials for construction, marine, and wind energy sectors.",
+    viewDetails: "View Specifications",
+    back: "Back to Products",
+    inquire: "Inquire About This Product",
+    related: "Related Products",
+  },
+  detail: {
+    desc: "Technical Deep Dive",
+    features: "Key Features",
+    apps: "Applications",
+    packaging: "Packaging & Storage",
+    specs: "Technical Data",
+  },
+  about: {
+    title: "About Changzhou Kingze",
+    p1: "Changzhou Kingze Composite Materials Co., Ltd. was founded in 2014. It is a professional manufacturer and trading company for fiberglass products, specializing in weaving all kinds of fiberglass textile products. The key to our success is that we can send our clients good quality fiberglass products at a very competitive price.",
+    p2: "We have a highly efficient team to deal with inquiries from customers. Our products are mainly exported to American, Brazil, Russia, Romania, Poland, Ukraine, Spain, Hungary, Costa Rica, etc., and enjoy a good reputation among clients.",
+    p3: "We can provide a wide range of products including fiberglass mesh, FIBERGLASS TEXTURIZED FABRIC, fiberglass drywall joint tape, fiberglass cloth (fabric), and also fiber-glass yarn, fiberglass roving, fiberglass weaving machine, weaving machine spare parts, coating glue, etc. Moreover, besides standard products, we also provide an extensive range of customization services.",
+    mission: "We are sincerely seeking cooperation with all interested companies worldwide.",
+  },
+  contact: {
+    title: "Get in Touch",
+    subtitle: "Inquiries from customers in America, Europe, Russia and beyond are welcome.",
+    name: "Name",
+    email: "Email",
+    message: "Message / Inquiry",
+    submit: "Send Inquiry",
+    sending: "Sending...",
+    success: "Thank you! We have received your inquiry.",
+    error: "Oops! Something went wrong. Please try again.",
   }
 };
 
 const productsData = [
   {
     id: 1,
-    name: { en: "ECR-Glass Direct Roving", zh: "ECR-Glass 直接无捻粗纱" },
-    category: { en: "Fiberglass Roving", zh: "玻璃纤维粗纱" },
-    description: { 
-      en: "ECR-Glass Direct Roving is specifically designed for filament winding, pultrusion, and weaving processes. It features excellent acid and corrosion resistance, making it superior to standard E-Glass in harsh environments. Compatible with unsaturated polyester, vinyl ester, and epoxy resins.",
-      zh: "ECR-Glass直接无捻粗纱专为缠绕、拉挤和编织工艺设计。它具有优异的耐酸和耐腐蚀性能，在恶劣环境中优于标准E-Glass。与不饱和聚酯、乙烯基酯和环氧树脂具有优异的相容性。"
-    },
-    features: {
-      en: [
-        "Excellent corrosion and acid resistance",
-        "Complete and fast wet-out",
-        "Low static and fuzz",
-        "High mechanical strength of the finished product",
-        "Superior fatigue resistance"
-      ],
-      zh: [
-        "优异的耐腐蚀和耐酸性",
-        "浸透速度快且完全",
-        "低静电，少毛羽",
-        "成品机械强度高",
-        "卓越的耐疲劳性"
-      ]
-    },
-    applications: {
-      en: "Widely used in manufacturing chemical storage tanks, sewage pipes, high-pressure pipes, and pultruded profiles requiring high corrosion resistance.",
-      zh: "广泛用于制造化学储罐、排污管道、高压管道以及需要高耐腐蚀性的拉挤型材。"
-    },
-    packaging: {
-      en: "Each bobbin is wrapped in a shrink poly bag and stacked on pallets. Net weight per pallet is approx. 1000kg.",
-      zh: "每个纱团收缩膜包装并堆叠在托盘上。每个托盘净重约1000公斤。"
-    },
+    name: "Fiberglass Mesh",
+    category: "Reinforcement",
+    summary: "The Ultimate Reinforcement Solution for Construction & Industrial Applications.",
+    descriptionBlocks: [
+      "Fiberglass mesh (also known as glass fiber mesh) is a high-performance, versatile material engineered for reinforcement, crack prevention, and structural stability. It serves as the 'steel' inside the wall insulation system.",
+      "It is widely used in External Thermal Insulation Composite Systems (ETICS) as a structural layer. By embedding the mesh into the base coat mortar, it forms a robust reinforcement layer that disperses stress caused by temperature changes and structural movements, effectively preventing surface cracking.",
+      "Our mesh features excellent alkali resistance, ensuring long-term durability even in harsh cement environments. It acts as the critical 'structural tie' connecting the insulation layer and the exterior finish, preventing layer separation and enhancing the overall impact resistance of the wall."
+    ],
+    features: [
+      "High tensile strength & Impact resistance",
+      "Excellent alkali resistance (Long-term stability in mortar)",
+      "Prevents wall cracking & deformation",
+      "Easy to apply (Flat surface, no curling)",
+      "Available in multiple colors (Green, Yellow, Blue, etc.) for identification"
+    ],
+    applications: "Wall reinforcement, EIFS/ETICS (External Thermal Insulation Composite Systems), Marble back reinforcement, Waterproofing roofing, Mosaic tile backing, Board reinforcement.",
+    packaging: "Each roll is shrunk wrapped in plastic film, then packed in cardboard cartons or on pallets. Standard roll size: 1m x 50m.",
     specs: [
-      { label: "Tex", value: "1200, 2400, 4800" },
-      { label: "Glass Type", value: "ECR (Boron-free)" },
-      { label: "Resin Compatibility", value: "UP, VE, EP" },
-      { label: "Moisture Content", value: "≤ 0.10%" }
+      { label: "Weight", value: "45g/m² - 300g/m²" },
+      { label: "Mesh Size", value: "2.5x2.5mm - 10x10mm" },
+      { label: "Width", value: "1m - 2m" },
+      { label: "Weave", value: "Leno" }
     ],
     images: [
-      "https://images.unsplash.com/photo-1520694478166-daaaaec95b69?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1550523892-38977616725d?auto=format&fit=crop&q=80&w=800", // Placeholder for detailed view
-      "https://images.unsplash.com/photo-1621252179027-94459d27d3ee?auto=format&fit=crop&q=80&w=800"  // Placeholder for application
+      "/mesh-white-standard.jpg", // (图4) 主图
+      "/mesh-blue-functional.jpg", // (图5) 蓝色款
+      "/mesh-multicolor-rolls.jpg", // (图6) 多色展示
+      "/mesh-seaming-line.jpg", // (图7) 缝线款
+      "/eifs-structure-diagram.jpg", // (图8) 结构图
+      "/insulation-detail-closeup.jpg", // (图9) 细节
+      "/mesh-application-values.jpg", // (图10) 应用场景
+      "/mesh-construction-worker.jpg", // (图11) 施工场景
+      "/mesh-project-building.jpg"  // (图12) 完工效果
     ]
   },
   {
     id: 2,
-    name: { en: "Woven Roving Fabric", zh: "玻璃纤维方格布" },
-    category: { en: "Construction Materials", zh: "建筑材料" },
-    description: { 
-      en: "A bidirectional fabric made by interweaving direct rovings. High mechanical strength, used widely in hand lay-up and molding processes for boats and tanks.",
-      zh: "由直接粗纱交织而成的双向织物。机械强度高，广泛用于船艇和储罐的手糊及模压工艺。"
-    },
-    features: {
-      en: ["Uniform thickness", "High tensile strength", "Consistent quality"],
-      zh: ["厚度均匀", "高拉伸强度", "质量稳定"]
-    },
-    applications: {
-      en: "Boat hulls, storage tanks, cooling towers, and architectural structures.",
-      zh: "船体、储罐、冷却塔和建筑结构。"
-    },
-    packaging: {
-      en: "Rolled on paper cores, packed in carton boxes or woven bags.",
-      zh: "卷在纸芯上，装在纸箱或编织袋中。"
-    },
-    specs: [
-      { label: "Weight", value: "300g/m² - 800g/m²" },
-      { label: "Weave Type", value: "Plain / Twill" },
-      { label: "Width", value: "1000mm - 3000mm" }
+    name: "7628 Fiberglass Cloth (Acrylic Coated)",
+    category: "Fiberglass Cloth",
+    summary: "Ideal protective and reinforcing outer layer for external wall insulation systems.",
+    descriptionBlocks: [
+      "This 7628 fiberglass cloth is coated with acrylic resin on both sides. The acrylic resin coating creates a smooth, moisture-proof surface that blocks external rainwater and ambient moisture effectively, while the inherent porous structure of the fiberglass base cloth ensures air permeability, allowing trapped water vapor in the insulation layer to escape smoothly.",
+      "Beyond these core features, it also boasts fire retardancy, high tensile strength, aging resistance and chemical corrosion resistance, with the base cloth capable of withstanding temperatures below 550℃.",
+      "When paired with mineral wool for external wall external insulation systems, the 7628 fiberglass cloth serves as an ideal protective and reinforcing outer layer. It tightly wraps the mineral wool, which excels at thermal insulation but is fragile and prone to moisture absorption.",
+      "This combination not only enhances the overall structural stability of the insulation system to prevent mineral wool from loosening or falling off but also leverages the cloth’s waterproof performance to keep the mineral wool dry—avoiding insulation efficiency degradation caused by moisture absorption. Meanwhile, its breathability prevents mold growth and structural damage to the wall due to vapor accumulation.",
+      "Additionally, its fire-retardant property complements mineral wool’s thermal insulation, forming a dual barrier that boosts the building’s fire safety and energy-saving effects, and extending the service life of the external wall insulation system significantly."
     ],
-    images: [
-      "https://images.unsplash.com/photo-1621252179027-94459d27d3ee?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1520694478166-daaaaec95b69?auto=format&fit=crop&q=80&w=800"
-    ]
-  },
-  {
-    id: 3,
-    name: { en: "Chopped Strand Mat", zh: "短切毡" },
-    category: { en: "Insulation Materials", zh: "绝缘材料" },
-    description: { 
-      en: "Non-woven fabric consisting of randomly distributed chopped strands held together with a powder or emulsion binder.",
-      zh: "由随机分布的短切原丝通过粉末或乳液粘结剂粘结而成的无纺织物。"
-    },
-    features: {
-      en: ["Easy air removal", "Good conformability", "Fast wet-out"],
-      zh: ["易于排气", "良好的贴覆性", "浸透快"]
-    },
-    applications: {
-      en: "Automotive interior parts, sanitary ware, pipes, and general FRP products.",
-      zh: "汽车内饰件、卫浴洁具、管道和通用玻璃钢产品。"
-    },
-    packaging: {
-      en: "Each roll is packed in a plastic bag and then in a carton box.",
-      zh: "每卷装在一个塑料袋中，然后装在纸箱中。"
-    },
-    specs: [
-      { label: "Weight", value: "100g/m² - 600g/m²" },
-      { label: "Binder", value: "Powder / Emulsion" },
-      { label: "Application", value: "Automotive, Sanitary" }
+    features: [
+      "Base cloth withstands < 550℃",
+      "Moisture-proof & Breathable (Vapor permeable)",
+      "Fire retardant & Anti-aging",
+      "Prevents mold growth inside insulation",
+      "High tensile strength",
+      "Chemical corrosion resistance"
     ],
+    applications: "External wall insulation wrapping (specifically for Mineral Wool protection), Pipeline insulation, Fire curtains, Expansion joints.",
+    packaging: "Rolls packed in woven bags or cartons.",
+    specs: [
+      { label: "Base Fabric", value: "7628 E-glass" },
+      { label: "Coating", value: "Acrylic Resin (2 sides)" },
+      { label: "Temp Resistance", value: "< 550℃" },
+      { label: "Weight", value: "200g/m² (Typical)" }
+    ],
+    // 如果没有cloth specific图片，这里您可以复用工厂图或者暂时保留网络图，
+    // 但根据您的描述，您主要提供了网格布和接缝带的详细图。
+    // 这里我为了保险，暂时保留网络图，如果您有对应的 cloth.jpg 请自行替换。
+    // *假设* 您没有提供专门的 7628 布图片，我保留网络高清图以免空白。
     images: [
-      "https://images.unsplash.com/photo-1593551203650-39a4a3831656?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1520694478166-daaaaec95b69?auto=format&fit=crop&q=80&w=800",
       "https://images.unsplash.com/photo-1615822461461-6e3040254b4f?auto=format&fit=crop&q=80&w=800"
     ]
   },
   {
-    id: 4,
-    name: { en: "Industrial Insulation Cloth", zh: "工业绝缘布" },
-    category: { en: "Industrial Applications", zh: "工业应用" },
-    description: { 
-      en: "High-temperature resistant fiberglass cloth utilized for thermal insulation, fire protection, and expansion joints.",
-      zh: "耐高温玻璃纤维布，用于隔热、防火和膨胀节。"
-    },
-    features: {
-      en: ["High temp resistance", "Fireproof", "Chemical stability"],
-      zh: ["耐高温", "防火", "化学稳定性"]
-    },
-    applications: {
-      en: "Welding blankets, removable insulation covers, fire curtains.",
-      zh: "焊接毯、可拆卸保温套、防火帘。"
-    },
-    packaging: {
-      en: "Standard rolls 50m or 100m length, packed in woven bags.",
-      zh: "标准卷长50米或100米，编织袋包装。"
-    },
+    id: 3,
+    name: "Fiberglass Texturized Fabric",
+    category: "High Temp Insulation",
+    summary: "Bulked yarn fabric with high thermal insulation capabilities.",
+    descriptionBlocks: [
+      "Woven from texturized fiberglass yarns, this fabric offers superior thickness and air retention, making it an excellent thermal insulator. The texturizing process 'bulks' the yarn, creating tiny air pockets that trap heat effectively.",
+      "It is soft, flexible, and easy to handle, serving as an ideal replacement for asbestos cloth. The unique texture provides high dust-holding capacity and better abrasion resistance.",
+      "This fabric demonstrates excellent foldability and adaptability, making it perfect for complex shapes, pipe wrapping, and multi-layer composite applications."
+    ],
+    features: [
+      "High thermal insulation efficiency",
+      "Soft, flexible, and easy to cut/sew",
+      "Asbestos-free & Non-hazardous",
+      "High dust holding capacity",
+      "Excellent abrasion resistance"
+    ],
+    applications: "Welding blankets, Expansion joints, Removable insulation covers (jackets), Heat shields, heavy-duty welding protection.",
+    packaging: "50m/roll, packed in woven bags.",
     specs: [
-      { label: "Temp Resistance", value: "550°C" },
-      { label: "Thickness", value: "0.4mm - 3.0mm" },
-      { label: "Coating", value: "Silicone / PU (Optional)" }
+      { label: "Thickness", value: "1.0mm - 3.0mm" },
+      { label: "Weight", value: "600g/m² - 2000g/m²" },
+      { label: "Temp", value: "550℃" }
     ],
     images: [
-      "https://images.unsplash.com/photo-1615822461461-6e3040254b4f?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1593551203650-39a4a3831656?auto=format&fit=crop&q=80&w=800"
+      "/texturized-fabric-texture.jpg", // (图13) 纹理细节
+      "/texturized-fabric-folded.jpg"   // (图14) 折叠展示
+    ]
+  },
+  {
+    id: 4,
+    name: "Fiberglass Drywall Joint Tape",
+    category: "Construction",
+    summary: "Self-adhesive tape for joining drywall plates and repairing cracks.",
+    descriptionBlocks: [
+      "A self-adhesive fiberglass mesh tape specifically designed for drywall joint finishing and crack repair. It eliminates the need for a pre-bedding coat, significantly speeding up the construction process.",
+      "The tape features a strong, high-tack adhesive that holds firmly to drywall surfaces. Its open mesh structure allows drywall compound (mud) to penetrate through, creating a strong, bubble-free bond that resists cracking and stretching.",
+      "Available in various sizes (small DIY rolls to large industrial rolls) and colors (White, Yellow) to suit different project requirements and bulk wholesale needs."
+    ],
+    features: [
+      "Self-adhesive & High tack",
+      "High tensile strength",
+      "Easy application (No pre-bedding required)",
+      "Mold and mildew resistance",
+      "Available in multiple colors (Yellow, White)"
+    ],
+    applications: "Drywall joints finishing, Wall crack repair, Ceiling repair, Plasterboard joining.",
+    packaging: "Shrink wrapped rolls. Standard sizes 50m/100m. Supports wholesale bulk packing.",
+    specs: [
+      { label: "Mesh Size", value: "8x8 / 9x9 inch" },
+      { label: "Weight", value: "60g/m² - 75g/m²" },
+      { label: "Width", value: "48mm / 50mm / 100mm" }
+    ],
+    images: [
+      "/drywall-tape-sizes.jpg", // (图15) 多规格
+      "/drywall-tape-large-roll.jpg", // (图16) 大卷工业装
+      "/drywall-tape-yellow.jpg", // (图17) 黄色款
+      "/drywall-tape-twin-pack.jpg", // (图18) 双卷包装
+      "/drywall-tape-detail.jpg", // (图19) 网格细节
+      "/drywall-tape-application.jpg"  // (图20) 施工应用
     ]
   }
 ];
 
 // --- Components ---
 
-const Navbar = ({ lang, setLang, currentPage, setPage, isMobileMenuOpen, setIsMobileMenuOpen, t }) => (
-  <nav className="bg-slate-900 text-white sticky top-0 z-50 shadow-lg">
+const Navbar = ({ currentPage, setPage, isMobileMenuOpen, setIsMobileMenuOpen }) => (
+  <nav className="bg-slate-900 text-white sticky top-0 z-50 shadow-lg border-b border-slate-800">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="flex items-center justify-between h-16">
-        {/* Logo */}
+      <div className="flex items-center justify-between h-20">
         <div 
           className="flex-shrink-0 font-bold text-xl tracking-wider cursor-pointer flex items-center gap-2"
           onClick={() => setPage('home')}
         >
           <Layers className="text-blue-500" />
-          KINGZE
-        </div>
-
-        {/* Desktop Menu */}
-        <div className="hidden md:block">
-          <div className="ml-10 flex items-baseline space-x-8">
-            {Object.keys(t.nav).map((key) => (
-              <button
-                key={key}
-                onClick={() => setPage(key)}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  currentPage === key ? 'bg-slate-800 text-blue-400' : 'hover:bg-slate-800 hover:text-white'
-                }`}
-              >
-                {t.nav[key]}
-              </button>
-            ))}
-            <button 
-              onClick={() => setLang(lang === 'en' ? 'zh' : 'en')}
-              className="flex items-center gap-1 px-3 py-2 bg-blue-600 hover:bg-blue-700 rounded-md text-sm font-medium transition-colors"
-            >
-              <Globe size={16} />
-              {lang.toUpperCase()}
-            </button>
+          <div className="flex flex-col">
+            <span className="leading-none">KINGZE</span>
+            <span className="text-[10px] text-slate-400 font-normal tracking-widest">COMPOSITES</span>
           </div>
         </div>
 
-        {/* Mobile Menu Button */}
+        <div className="hidden md:block">
+          <div className="ml-10 flex items-baseline space-x-8">
+            {['home', 'products', 'about', 'contact'].map((key) => (
+              <button
+                key={key}
+                onClick={() => setPage(key)}
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors uppercase tracking-wide ${
+                  currentPage === key ? 'text-blue-400' : 'hover:text-blue-400 text-slate-300'
+                }`}
+              >
+                {content.nav[key]}
+              </button>
+            ))}
+            
+            <div className="group relative inline-block text-left">
+              <button className="flex items-center gap-1 px-3 py-2 text-slate-500 hover:text-slate-300 text-xs font-medium border border-slate-700 rounded transition-colors">
+                <Globe size={14} />
+                Global (EN)
+              </button>
+              <div className="absolute right-0 mt-2 w-48 bg-slate-800 rounded-md shadow-lg py-1 hidden group-hover:block border border-slate-700">
+                 <div className="px-4 py-2 text-xs text-slate-400">Español (Coming Soon)</div>
+                 <div className="px-4 py-2 text-xs text-slate-400">Français (Coming Soon)</div>
+                 <div className="px-4 py-2 text-xs text-slate-400">Русский (Coming Soon)</div>
+                 <div className="px-4 py-2 text-xs text-slate-400">العربية (Coming Soon)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="md:hidden">
           <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 rounded-md hover:bg-slate-800">
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -293,130 +250,149 @@ const Navbar = ({ lang, setLang, currentPage, setPage, isMobileMenuOpen, setIsMo
       </div>
     </div>
 
-    {/* Mobile Menu Panel */}
     {isMobileMenuOpen && (
-      <div className="md:hidden bg-slate-800">
+      <div className="md:hidden bg-slate-800 border-t border-slate-700">
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          {Object.keys(t.nav).map((key) => (
+          {['home', 'products', 'about', 'contact'].map((key) => (
             <button
               key={key}
               onClick={() => { setPage(key); setIsMobileMenuOpen(false); }}
-              className="block w-full text-left px-3 py-2 rounded-md text-base font-medium hover:bg-slate-700"
+              className="block w-full text-left px-3 py-4 rounded-md text-base font-medium hover:bg-slate-700 border-b border-slate-700 last:border-0"
             >
-              {t.nav[key]}
+              {content.nav[key]}
             </button>
           ))}
-          <button 
-            onClick={() => { setLang(lang === 'en' ? 'zh' : 'en'); setIsMobileMenuOpen(false); }}
-            className="w-full text-left px-3 py-2 text-blue-400 font-bold"
-          >
-            Switch Language ({lang === 'en' ? '中文' : 'English'})
-          </button>
         </div>
       </div>
     )}
   </nav>
 );
 
-const Hero = ({ t, setPage }) => (
+const Hero = ({ setPage }) => (
   <div className="relative bg-slate-900 overflow-hidden">
     <div className="absolute inset-0">
       <img 
         src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=2000" 
-        alt="Industrial Factory" 
-        className="w-full h-full object-cover opacity-20"
+        alt="Fiberglass Weaving Factory" 
+        className="w-full h-full object-cover opacity-30"
       />
+      <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent"></div>
     </div>
     <div className="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
-      <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
-        {t.hero.title}
-      </h1>
-      <p className="mt-6 text-xl text-slate-300 max-w-3xl">
-        {t.hero.subtitle}
-      </p>
-      <div className="mt-10">
-        <button 
-          onClick={() => setPage('products')}
-          className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors"
-        >
-          {t.hero.cta}
-          <ArrowRight className="ml-2" size={20} />
-        </button>
-      </div>
-    </div>
-  </div>
-);
-
-const Features = ({ t }) => (
-  <div className="py-12 bg-white">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-        <div className="flex flex-col items-center text-center p-6 bg-slate-50 rounded-lg hover:shadow-md transition-shadow">
-          <div className="p-3 bg-blue-100 rounded-full text-blue-600 mb-4">
-            <ShieldCheck size={32} />
-          </div>
-          <h3 className="text-lg font-bold text-slate-900">{t.features.quality}</h3>
-        </div>
-        <div className="flex flex-col items-center text-center p-6 bg-slate-50 rounded-lg hover:shadow-md transition-shadow">
-          <div className="p-3 bg-blue-100 rounded-full text-blue-600 mb-4">
-            <Globe size={32} />
-          </div>
-          <h3 className="text-lg font-bold text-slate-900">{t.features.global}</h3>
-        </div>
-        <div className="flex flex-col items-center text-center p-6 bg-slate-50 rounded-lg hover:shadow-md transition-shadow">
-          <div className="p-3 bg-blue-100 rounded-full text-blue-600 mb-4">
-            <Layers size={32} />
-          </div>
-          <h3 className="text-lg font-bold text-slate-900">{t.features.tech}</h3>
+      <div className="max-w-2xl">
+        <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl mb-6">
+          {content.hero.title}
+        </h1>
+        <p className="mt-4 text-xl text-slate-300 leading-relaxed">
+          {content.hero.subtitle}
+        </p>
+        <div className="mt-10 flex gap-4">
+          <button 
+            onClick={() => setPage('products')}
+            className="inline-flex items-center px-8 py-4 border border-transparent text-base font-bold rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-500/30"
+          >
+            {content.hero.cta}
+            <ArrowRight className="ml-2" size={20} />
+          </button>
+          <button 
+            onClick={() => setPage('contact')}
+            className="inline-flex items-center px-8 py-4 border border-slate-600 text-base font-bold rounded-md text-slate-300 hover:bg-slate-800 transition-all"
+          >
+            Contact Us
+          </button>
         </div>
       </div>
     </div>
   </div>
 );
 
-const ProductCard = ({ product, lang, t, onClick }) => (
+const Features = () => {
+  const featuresList = [
+    { 
+      icon: <Construction size={32} />, 
+      title: "Reinforcement", 
+      desc: "High tensile strength solutions for construction stability." 
+    },
+    { 
+      icon: <Flame size={32} />, 
+      title: "Fireproof", 
+      desc: "Non-combustible materials withstanding up to 550℃." 
+    },
+    { 
+      icon: <Droplets size={32} />, 
+      title: "Waterproof & Breathable", 
+      desc: "Acrylic coatings that block moisture while allowing vapor escape." 
+    },
+    { 
+      icon: <Layers size={32} />, 
+      title: "Thermal Insulation", 
+      desc: "Enhances energy efficiency in external wall systems." 
+    },
+  ];
+
+  return (
+    <div className="py-16 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-slate-900 uppercase tracking-wide">Core Capabilities</h2>
+        </div>
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+          {featuresList.map((item, idx) => (
+            <div key={idx} className="flex flex-col items-center text-center p-6 bg-slate-50 rounded-xl border border-slate-100 hover:shadow-lg transition-shadow duration-300">
+              <div className="p-4 bg-blue-100 rounded-full text-blue-600 mb-5">
+                {item.icon}
+              </div>
+              <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
+              <p className="text-sm text-slate-600">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ProductCard = ({ product, onClick }) => (
   <div 
-    className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer border border-slate-100"
+    className="bg-white rounded-lg shadow-sm overflow-hidden border border-slate-200 hover:shadow-xl hover:border-blue-300 transition-all duration-300 group cursor-pointer flex flex-col h-full"
     onClick={onClick}
   >
-    <div className="h-48 bg-slate-200 relative overflow-hidden">
+    <div className="h-56 bg-slate-200 relative overflow-hidden">
       <img 
         src={product.images[0]} 
-        alt={product.name[lang]} 
-        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        alt={product.name} 
+        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
       />
+      <div className="absolute top-0 right-0 bg-blue-600 text-white text-xs font-bold px-3 py-1 m-2 rounded-full uppercase tracking-wider">
+        {product.category}
+      </div>
     </div>
-    <div className="p-6">
-      <span className="text-xs font-bold uppercase text-blue-600 tracking-wide">
-        {product.category[lang]}
-      </span>
-      <h3 className="mt-2 text-xl font-semibold text-slate-900 line-clamp-1">
-        {product.name[lang]}
+    <div className="p-6 flex-grow flex flex-col">
+      <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors">
+        {product.name}
       </h3>
-      <p className="mt-3 text-slate-500 text-sm line-clamp-3">
-        {product.description[lang]}
+      <p className="text-slate-600 text-sm line-clamp-3 mb-4 flex-grow">
+        {product.summary}
       </p>
-      <div className="mt-4 flex items-center text-blue-600 text-sm font-medium">
-        {t.products.viewDetails} <ChevronRight size={16} />
+      <div className="flex items-center text-blue-600 text-sm font-bold uppercase tracking-wide mt-auto">
+        View Specs <ChevronRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" />
       </div>
     </div>
   </div>
 );
 
-const ProductList = ({ t, lang, onProductClick }) => (
-  <div className="py-16 bg-slate-50">
+const ProductList = ({ onProductClick }) => (
+  <div className="py-20 bg-slate-50">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="text-center mb-12">
-        <h2 className="text-3xl font-extrabold text-slate-900">{t.products.title}</h2>
-        <p className="mt-4 text-lg text-slate-500">{t.products.subtitle}</p>
+      <div className="text-center mb-16">
+        <h2 className="text-3xl font-extrabold text-slate-900">{content.products.title}</h2>
+        <p className="mt-4 text-lg text-slate-500 max-w-2xl mx-auto">{content.products.subtitle}</p>
       </div>
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
         {productsData.map((product) => (
           <ProductCard 
             key={product.id} 
             product={product} 
-            lang={lang} 
-            t={t} 
             onClick={() => onProductClick(product)} 
           />
         ))}
@@ -425,10 +401,9 @@ const ProductList = ({ t, lang, onProductClick }) => (
   </div>
 );
 
-const ProductDetail = ({ t, lang, product, onBack, onInquire, onProductClick }) => {
+const ProductDetail = ({ product, onBack, onInquire, onProductClick }) => {
   const [activeImg, setActiveImg] = useState(product.images[0]);
 
-  // Reset active image when product changes
   useEffect(() => {
     setActiveImg(product.images[0]);
     window.scrollTo(0,0);
@@ -439,31 +414,28 @@ const ProductDetail = ({ t, lang, product, onBack, onInquire, onProductClick }) 
     .slice(0, 4);
 
   return (
-    <div className="py-8 bg-white min-h-screen">
+    <div className="py-12 bg-white min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumb / Back */}
-        <div className="mb-6">
+        <div className="mb-8">
           <button 
             onClick={onBack}
             className="flex items-center text-slate-500 hover:text-blue-600 transition-colors text-sm font-medium"
           >
             <ChevronRight className="rotate-180 mr-1" size={18} />
-            {t.products.back} / <span className="ml-2 text-slate-400">{product.name[lang]}</span>
+            {content.products.back}
           </button>
         </div>
         
-        {/* Top Section: Gallery + Summary */}
+        {/* Top: Gallery & Summary */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-          {/* Left: Image Gallery */}
           <div className="flex flex-col gap-4">
             <div className="rounded-xl overflow-hidden shadow-lg bg-slate-100 border border-slate-200 aspect-w-4 aspect-h-3 h-[400px]">
               <img 
                 src={activeImg} 
-                alt={product.name[lang]} 
+                alt={product.name} 
                 className="w-full h-full object-cover"
               />
             </div>
-            {/* Thumbnails */}
             <div className="flex gap-4 overflow-x-auto pb-2">
               {product.images.map((img, idx) => (
                 <button 
@@ -479,28 +451,31 @@ const ProductDetail = ({ t, lang, product, onBack, onInquire, onProductClick }) 
             </div>
           </div>
 
-          {/* Right: Key Info & CTA */}
           <div className="flex flex-col">
-            <span className="text-blue-600 font-bold tracking-wide uppercase text-sm mb-2">
-              {product.category[lang]}
+            <span className="text-blue-600 font-bold tracking-wide uppercase text-sm mb-3">
+              {product.category}
             </span>
-            <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
-              {product.name[lang]}
+            <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">
+              {product.name}
             </h1>
-            <p className="text-lg text-slate-600 mb-6 leading-relaxed border-b border-slate-100 pb-6">
-              {product.description[lang]}
-            </p>
+            
+            {/* Summary */}
+            <div className="bg-blue-50 border-l-4 border-blue-600 p-4 mb-8">
+              <p className="text-lg text-slate-800 font-medium italic">
+                {product.summary}
+              </p>
+            </div>
 
-            {/* Quick Specs Box */}
-            <div className="bg-slate-50 rounded-lg p-5 border border-slate-200 mb-8">
-              <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-3">
-                {t.detail.specs} (Quick View)
+            {/* Main Description */}
+            <div className="bg-slate-50 rounded-lg p-6 border border-slate-200 mb-8">
+              <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4 flex items-center gap-2">
+                <FileText size={16} /> {content.detail.specs}
               </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
-                {product.specs.slice(0, 4).map((spec, idx) => (
-                  <div key={idx} className="flex justify-between text-sm">
-                    <span className="text-slate-500">{spec.label}:</span>
-                    <span className="text-slate-900 font-medium">{spec.value}</span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-6">
+                {product.specs.slice(0, 6).map((spec, idx) => (
+                  <div key={idx} className="flex justify-between text-sm border-b border-slate-200 pb-2 last:border-0">
+                    <span className="text-slate-500">{spec.label}</span>
+                    <span className="text-slate-900 font-semibold">{spec.value}</span>
                   </div>
                 ))}
               </div>
@@ -508,80 +483,84 @@ const ProductDetail = ({ t, lang, product, onBack, onInquire, onProductClick }) 
 
             <div className="mt-auto">
               <button 
-                onClick={() => onInquire(product.name[lang])}
-                className="w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-bold text-lg hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl flex justify-center items-center gap-2"
+                onClick={() => onInquire(product.name)}
+                className="w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-bold text-lg hover:bg-blue-700 transition-all shadow-xl hover:shadow-2xl flex justify-center items-center gap-2 transform active:scale-95"
               >
                 <Mail size={20} />
-                {t.products.inquire}
+                {content.products.inquire}
               </button>
-              <p className="text-center text-slate-400 text-sm mt-3">
-                Expert response within 24 hours.
+              <p className="text-center text-slate-400 text-xs mt-3">
+                Direct from Manufacturer • Global Shipping
               </p>
             </div>
           </div>
         </div>
 
-        {/* Middle Section: Deep Dive Details */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-          {/* Features & Advantages */}
-          <div className="bg-slate-50 rounded-xl p-8 border border-slate-100">
-            <div className="flex items-center gap-2 mb-6">
-              <CheckCircle className="text-blue-600" />
-              <h3 className="text-xl font-bold text-slate-900">{t.detail.features}</h3>
-            </div>
-            <ul className="space-y-3">
-              {product.features[lang].map((feat, i) => (
-                <li key={i} className="flex items-start gap-3 text-slate-600">
-                  <span className="w-1.5 h-1.5 bg-blue-400 rounded-full mt-2.5 flex-shrink-0" />
-                  <span>{feat}</span>
-                </li>
+        {/* Middle: Technical Content (Long Form) */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-20">
+          
+          {/* Main Description Column (Span 2) */}
+          <div className="lg:col-span-2">
+            <h3 className="text-2xl font-bold text-slate-900 mb-6 pb-2 border-b border-slate-200">
+              {content.detail.desc}
+            </h3>
+            <div className="prose prose-slate max-w-none text-slate-600">
+              {/* Rendering Long Text Blocks */}
+              {product.descriptionBlocks && product.descriptionBlocks.map((block, i) => (
+                <p key={i} className="mb-4 text-lg leading-relaxed text-justify">
+                  {block}
+                </p>
               ))}
-            </ul>
-          </div>
-
-          {/* Applications */}
-          <div className="bg-white rounded-xl p-8 border border-slate-200 shadow-sm">
-            <div className="flex items-center gap-2 mb-6">
-              <Wind className="text-blue-600" />
-              <h3 className="text-xl font-bold text-slate-900">{t.detail.apps}</h3>
-            </div>
-            <p className="text-slate-600 leading-relaxed mb-4">
-              {product.applications[lang]}
-            </p>
-            {/* Placeholder for application Icons/Images if needed */}
-            <div className="bg-slate-100 h-32 rounded-lg flex items-center justify-center text-slate-400 text-sm">
-              [Application Diagram / Photo]
             </div>
           </div>
 
-          {/* Packaging & Storage */}
-          <div className="bg-slate-50 rounded-xl p-8 border border-slate-100">
-            <div className="flex items-center gap-2 mb-6">
-              <Package className="text-blue-600" />
-              <h3 className="text-xl font-bold text-slate-900">{t.detail.packaging}</h3>
-            </div>
-            <p className="text-slate-600 leading-relaxed">
-              {product.packaging[lang]}
-            </p>
-            <div className="mt-6 pt-6 border-t border-slate-200">
-              <div className="flex items-center gap-2 text-blue-700 font-medium cursor-pointer hover:underline">
-                <FileText size={18} />
-                Download Technical Data Sheet (PDF)
+          {/* Sidebar: Features & Applications (Span 1) */}
+          <div className="flex flex-col gap-8">
+            <div className="bg-slate-50 rounded-xl p-8 border border-slate-100">
+              <div className="flex items-center gap-2 mb-6 text-blue-800">
+                <CheckCircle size={24} />
+                <h3 className="text-xl font-bold">{content.detail.features}</h3>
               </div>
+              <ul className="space-y-4">
+                {product.features.map((feat, i) => (
+                  <li key={i} className="flex items-start gap-3 text-slate-700">
+                    <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2.5 flex-shrink-0" />
+                    <span>{feat}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="bg-white rounded-xl p-8 border border-slate-200 shadow-sm">
+              <div className="flex items-center gap-2 mb-6 text-blue-800">
+                <Wind size={24} />
+                <h3 className="text-xl font-bold">{content.detail.apps}</h3>
+              </div>
+              <p className="text-slate-600 leading-relaxed mb-4">
+                {product.applications}
+              </p>
+            </div>
+
+            <div className="bg-slate-50 rounded-xl p-8 border border-slate-100">
+              <div className="flex items-center gap-2 mb-6 text-blue-800">
+                <Package size={24} />
+                <h3 className="text-xl font-bold">{content.detail.packaging}</h3>
+              </div>
+              <p className="text-slate-600 leading-relaxed">
+                {product.packaging}
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Bottom Section: Related Products */}
-        <div className="border-t border-slate-200 pt-12">
-          <h2 className="text-2xl font-bold text-slate-900 mb-8">{t.products.related}</h2>
+        {/* Related Products */}
+        <div className="border-t border-slate-200 pt-16">
+          <h2 className="text-2xl font-bold text-slate-900 mb-8">{content.products.related}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {relatedProducts.map((p) => (
               <ProductCard 
                 key={p.id} 
                 product={p} 
-                lang={lang} 
-                t={t} 
                 onClick={() => onProductClick(p)} 
               />
             ))}
@@ -593,160 +572,241 @@ const ProductDetail = ({ t, lang, product, onBack, onInquire, onProductClick }) 
   );
 };
 
-const AboutSection = ({ t }) => (
-  <div className="py-16 bg-slate-50">
+const AboutSection = () => (
+  <div className="py-20 bg-slate-50">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="lg:text-center mb-12">
-        <h2 className="text-3xl font-extrabold text-slate-900">{t.about.title}</h2>
+      <div className="lg:text-center mb-16">
+        <h2 className="text-3xl font-extrabold text-slate-900">{content.about.title}</h2>
+        <div className="w-24 h-1 bg-blue-600 mx-auto mt-4 rounded-full hidden lg:block"></div>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        <div className="prose prose-blue text-slate-600 text-lg">
-          <p className="mb-4">{t.about.p1}</p>
-          <p className="mb-4">{t.about.p2}</p>
-          <blockquote className="border-l-4 border-blue-600 pl-4 italic text-slate-800 font-semibold">
-            {t.about.mission}
+      
+      {/* 3 Images Factory Showcase */}
+      <div className="mb-16 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="relative group overflow-hidden rounded-xl shadow-md h-64">
+           {/* (图1) */}
+           <img className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" 
+                src="/factory-production-line.jpg" 
+                alt="Production Line" />
+           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+              <div className="text-white">
+                <p className="font-bold text-lg flex items-center gap-2"><Factory size={18}/> Production</p>
+                <p className="text-xs text-slate-300">Advanced Drawing Lines</p>
+              </div>
+           </div>
+        </div>
+        <div className="relative group overflow-hidden rounded-xl shadow-md h-64">
+           {/* (图2) */}
+           <img className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" 
+                src="/factory-weaving-process.jpg" 
+                alt="Weaving Process" />
+           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+              <div className="text-white">
+                <p className="font-bold text-lg flex items-center gap-2"><Zap size={18}/> Weaving</p>
+                <p className="text-xs text-slate-300">High-speed Looms</p>
+              </div>
+           </div>
+        </div>
+        <div className="relative group overflow-hidden rounded-xl shadow-md h-64">
+           {/* (图3) */}
+           <img className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" 
+                src="/factory-workshop-overview.jpg" 
+                alt="Workshop Overview" />
+           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+              <div className="text-white">
+                <p className="font-bold text-lg flex items-center gap-2"><Layers size={18}/> Scale</p>
+                <p className="text-xs text-slate-300">Large-scale Manufacturing</p>
+              </div>
+           </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+        <div className="prose prose-lg text-slate-600">
+          <p className="mb-6 leading-relaxed">{content.about.p1}</p>
+          <p className="mb-6 leading-relaxed">{content.about.p2}</p>
+          <p className="mb-8 leading-relaxed">{content.about.p3}</p>
+          <blockquote className="border-l-4 border-blue-600 pl-6 italic text-slate-800 font-medium bg-white p-6 rounded-r-lg shadow-sm">
+            "{content.about.mission}"
           </blockquote>
         </div>
+        
+        {/* Stats Section */}
         <div className="grid grid-cols-2 gap-4">
-          <img className="rounded-lg shadow-md transform translate-y-4" src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=400" alt="Factory 1" />
-          <img className="rounded-lg shadow-md transform -translate-y-4" src="https://images.unsplash.com/photo-1581092335397-9583eb92d232?auto=format&fit=crop&q=80&w=400" alt="Factory 2" />
+           <div className="bg-blue-900 text-white p-8 rounded-lg text-center shadow-lg">
+              <span className="block text-4xl font-extrabold mb-2">2014</span>
+              <span className="text-xs uppercase tracking-wider opacity-70">Established</span>
+           </div>
+           <div className="bg-slate-800 text-white p-8 rounded-lg text-center shadow-lg">
+              <span className="block text-4xl font-extrabold mb-2">10+</span>
+              <span className="text-xs uppercase tracking-wider opacity-70">Export Markets</span>
+           </div>
+           <div className="bg-slate-100 text-slate-900 p-8 rounded-lg text-center shadow-md col-span-2">
+              <span className="block text-xl font-bold mb-2">ISO 9001</span>
+              <span className="text-xs uppercase tracking-wider text-slate-500">Quality Certified</span>
+           </div>
         </div>
       </div>
       
-      {/* Industry Applications Icons */}
-      <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-        <div className="p-4">
-          <Wind className="mx-auto text-slate-400 mb-2" size={40} />
-          <span className="font-medium text-slate-600">Wind Energy</span>
-        </div>
-        <div className="p-4">
-          <Anchor className="mx-auto text-slate-400 mb-2" size={40} />
-          <span className="font-medium text-slate-600">Marine</span>
-        </div>
-        <div className="p-4">
-          <Layers className="mx-auto text-slate-400 mb-2" size={40} />
-          <span className="font-medium text-slate-600">Construction</span>
-        </div>
-        <div className="p-4">
-          <ShieldCheck className="mx-auto text-slate-400 mb-2" size={40} />
-          <span className="font-medium text-slate-600">Defense</span>
+      {/* Export Markets Bar */}
+      <div className="mt-20 border-t border-slate-200 pt-10">
+        <p className="text-center text-sm font-bold text-slate-400 uppercase tracking-widest mb-8">Global Export Markets</p>
+        <div className="flex flex-wrap justify-center gap-x-12 gap-y-4 text-slate-500 font-semibold">
+           <span>USA</span>
+           <span>Brazil</span>
+           <span>Russia</span>
+           <span>Spain</span>
+           <span>Poland</span>
+           <span>Romania</span>
+           <span>Ukraine</span>
+           <span>Hungary</span>
+           <span>Costa Rica</span>
         </div>
       </div>
     </div>
   </div>
 );
 
-const ContactSection = ({ t, initialMessage }) => {
+const ContactSection = ({ initialMessage }) => {
   const [formState, setFormState] = useState({
     name: '',
     email: '',
     message: initialMessage || ''
   });
-  const [status, setStatus] = useState(null); // null, 'success', 'error'
+  const [status, setStatus] = useState(null); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formState.name || !formState.email || !formState.message) {
+      setStatus('error');
+      return;
+    }
     
-    /* ---------------------------------------------------------
-       IMPORTANT: FORM BACKEND CONNECTION
-       When you get your Formspree link (e.g., https://formspree.io/f/xmqnbwky),
-       you will replace the simulation code below with the real fetch call.
-       ---------------------------------------------------------
-    */
+    setStatus('sending');
 
-    if (formState.name && formState.email.includes('@') && formState.message) {
-      // SIMULATION (Remove this when you have Formspree)
-      setStatus('success');
-      setTimeout(() => {
-        setStatus(null);
-        setFormState({ name: '', email: '', message: '' });
-      }, 3000);
-      
-      /* // REAL CODE (Uncomment this later):
-      const response = await fetch("YOUR_FORMSPREE_URL_HERE", {
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
         method: "POST",
         body: JSON.stringify(formState),
-        headers: { 'Accept': 'application/json' }
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
       });
-      if (response.ok) setStatus('success');
-      else setStatus('error');
-      */
 
-    } else {
+      if (response.ok) {
+        setStatus('success');
+        setFormState({ name: '', email: '', message: '' }); 
+        setTimeout(() => setStatus(null), 5000);
+      } else {
+        setStatus('error');
+      }
+    } catch (error) {
       setStatus('error');
     }
   };
 
   return (
-    <div className="py-16 bg-white">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-extrabold text-slate-900">{t.contact.title}</h2>
-          <p className="mt-4 text-lg text-slate-500">{t.contact.subtitle}</p>
+    <div className="py-20 bg-white">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-extrabold text-slate-900">{content.contact.title}</h2>
+          <p className="mt-4 text-lg text-slate-500">{content.contact.subtitle}</p>
         </div>
 
-        <div className="bg-slate-50 shadow-lg rounded-xl p-8 border border-slate-100">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-slate-700">{t.contact.name}</label>
-              <input
-                type="text"
-                name="name"
-                value={formState.name}
-                onChange={(e) => setFormState({...formState, name: e.target.value})}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white py-2 px-3 border"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700">{t.contact.email}</label>
-              <input
-                type="email"
-                name="email"
-                value={formState.email}
-                onChange={(e) => setFormState({...formState, email: e.target.value})}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white py-2 px-3 border"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700">{t.contact.message}</label>
-              <textarea
-                rows={4}
-                name="message"
-                value={formState.message}
-                onChange={(e) => setFormState({...formState, message: e.target.value})}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white py-2 px-3 border"
-              />
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="col-span-1 bg-slate-900 text-white rounded-xl p-8 flex flex-col justify-between">
+             <div>
+               <h3 className="font-bold text-lg mb-6">Contact Info</h3>
+               <div className="space-y-6">
+                 <div className="flex items-start gap-3">
+                   <MapPin className="text-blue-400 mt-1" size={20} />
+                   <p className="text-sm text-slate-300 leading-relaxed">
+                     Changzhou Kingze Composite Materials Co.,Ltd.<br/>
+                     Changzhou, Jiangsu, China
+                   </p>
+                 </div>
+                 <div className="flex items-center gap-3">
+                   <Mail className="text-blue-400" size={20} />
+                   <p className="text-sm text-slate-300">sales@kingze-composites.com</p>
+                 </div>
+                 <div className="flex items-center gap-3">
+                   <Phone className="text-blue-400" size={20} />
+                   <p className="text-sm text-slate-300">+86 138 0000 0000</p>
+                 </div>
+               </div>
+             </div>
+             <div className="mt-8 pt-8 border-t border-slate-700">
+               <p className="text-xs text-slate-500">Working Hours: Mon-Fri, 9am - 6pm (GMT+8)</p>
+             </div>
+          </div>
 
-            {status === 'error' && (
-              <div className="text-red-600 text-sm text-center bg-red-50 p-2 rounded">
-                {t.contact.error}
+          <div className="col-span-2 bg-slate-50 shadow-lg rounded-xl p-8 border border-slate-100">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 mb-2">{content.contact.name}</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formState.name}
+                    onChange={(e) => setFormState({...formState, name: e.target.value})}
+                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white py-3 px-4 border"
+                    placeholder="John Doe"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 mb-2">{content.contact.email}</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formState.email}
+                    onChange={(e) => setFormState({...formState, email: e.target.value})}
+                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white py-3 px-4 border"
+                    placeholder="john@company.com"
+                    required
+                  />
+                </div>
               </div>
-            )}
-            
-            {status === 'success' && (
-              <div className="text-green-600 text-sm text-center bg-green-50 p-2 rounded">
-                {t.contact.success}
+              <div>
+                <label className="block text-sm font-bold text-slate-700 mb-2">{content.contact.message}</label>
+                <textarea
+                  rows={4}
+                  name="message"
+                  value={formState.message}
+                  onChange={(e) => setFormState({...formState, message: e.target.value})}
+                  className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white py-3 px-4 border"
+                  placeholder="I am interested in..."
+                  required
+                />
               </div>
-            )}
 
-            <button
-              type="submit"
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-            >
-              {t.contact.submit}
-            </button>
-          </form>
+              {status === 'error' && (
+                <div className="text-red-600 text-sm text-center bg-red-50 p-3 rounded-md font-medium">
+                  {content.contact.error}
+                </div>
+              )}
+              
+              {status === 'success' && (
+                <div className="text-green-600 text-sm text-center bg-green-50 p-3 rounded-md font-medium">
+                  {content.contact.success}
+                </div>
+              )}
+              
+              {status === 'sending' && (
+                <div className="text-blue-600 text-sm text-center bg-blue-50 p-3 rounded-md font-medium">
+                  {content.contact.sending}
+                </div>
+              )}
 
-          <div className="mt-8 border-t pt-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-slate-600 text-sm">
-            <div className="flex items-center justify-center md:justify-start">
-              <Phone size={16} className="mr-2 text-blue-500" />
-              +1 (555) 123-4567
-            </div>
-            <div className="flex items-center justify-center md:justify-start">
-              <MapPin size={16} className="mr-2 text-blue-500" />
-              New Jersey, USA
-            </div>
+              <button
+                type="submit"
+                disabled={status === 'sending'}
+                className={`w-full flex justify-center py-4 px-4 border border-transparent rounded-md shadow-lg text-base font-bold text-white ${status === 'sending' ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all`}
+              >
+                {status === 'sending' ? content.contact.sending : content.contact.submit}
+              </button>
+            </form>
           </div>
         </div>
       </div>
@@ -754,33 +814,47 @@ const ContactSection = ({ t, initialMessage }) => {
   );
 };
 
-const Footer = ({ t, setPage }) => (
-  <footer className="bg-slate-900 text-slate-300 py-12">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div>
-        <div className="flex items-center gap-2 text-white font-bold text-xl mb-4">
-           <Layers className="text-blue-500" /> KINGZE
+const Footer = ({ setPage }) => (
+  <footer className="bg-slate-900 text-slate-300 py-16 border-t border-slate-800">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+        <div className="col-span-1 md:col-span-2">
+          <div className="flex items-center gap-2 text-white font-bold text-2xl mb-6">
+             <Layers className="text-blue-500" /> KINGZE
+          </div>
+          <p className="text-sm text-slate-400 leading-relaxed max-w-sm mb-6">
+            Changzhou Kingze Composite Materials Co.,Ltd.<br/>
+            Professional manufacturer of fiberglass textile products since 2014.
+          </p>
+          <div className="flex gap-4">
+             <div className="w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors cursor-pointer">in</div>
+             <div className="w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors cursor-pointer">f</div>
+          </div>
         </div>
-        <p className="text-sm text-slate-400">
-          Premium fiberglass composite solutions for the global market.
-        </p>
+        
+        <div>
+          <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Products</h4>
+          <ul className="space-y-3 text-sm">
+            <li onClick={() => setPage('products')} className="cursor-pointer hover:text-blue-400 transition-colors">Fiberglass Mesh</li>
+            <li onClick={() => setPage('products')} className="cursor-pointer hover:text-blue-400 transition-colors">Fiberglass Cloth</li>
+            <li onClick={() => setPage('products')} className="cursor-pointer hover:text-blue-400 transition-colors">Drywall Tape</li>
+            <li onClick={() => setPage('products')} className="cursor-pointer hover:text-blue-400 transition-colors">Texturized Fabric</li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Company</h4>
+          <ul className="space-y-3 text-sm">
+            <li onClick={() => setPage('about')} className="cursor-pointer hover:text-blue-400 transition-colors">About Us</li>
+            <li onClick={() => setPage('contact')} className="cursor-pointer hover:text-blue-400 transition-colors">Contact Sales</li>
+            <li className="cursor-pointer hover:text-blue-400 transition-colors">Privacy Policy</li>
+          </ul>
+        </div>
       </div>
-      <div>
-        <h4 className="text-white font-bold mb-4 uppercase tracking-wider text-sm">Quick Links</h4>
-        <ul className="space-y-2 text-sm">
-          <li onClick={() => setPage('products')} className="cursor-pointer hover:text-blue-400">Products</li>
-          <li onClick={() => setPage('about')} className="cursor-pointer hover:text-blue-400">About Us</li>
-          <li onClick={() => setPage('contact')} className="cursor-pointer hover:text-blue-400">Contact</li>
-        </ul>
+      
+      <div className="border-t border-slate-800 pt-8 text-center text-xs text-slate-500">
+        &copy; 2024 Changzhou Kingze Composite Materials Co.,Ltd. All rights reserved.
       </div>
-      <div>
-        <h4 className="text-white font-bold mb-4 uppercase tracking-wider text-sm">Connect</h4>
-        <p className="text-sm text-slate-400 mb-2">sales@kingze-composites.com</p>
-        <p className="text-sm text-slate-400">+86 138 0000 0000</p>
-      </div>
-    </div>
-    <div className="max-w-7xl mx-auto px-4 mt-8 pt-8 border-t border-slate-800 text-center text-xs text-slate-500">
-      &copy; 2024 Kingze Composites. All rights reserved.
     </div>
   </footer>
 );
@@ -788,13 +862,10 @@ const Footer = ({ t, setPage }) => (
 // --- Main App Component ---
 
 const App = () => {
-  const [lang, setLang] = useState('en');
   const [currentPage, setPage] = useState('home');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [inquirySubject, setInquirySubject] = useState('');
-
-  const t = translations[lang];
 
   const handleProductClick = (product) => {
     setSelectedProduct(product);
@@ -813,19 +884,17 @@ const App = () => {
       case 'home':
         return (
           <>
-            <Hero t={t} setPage={setPage} />
-            <Features t={t} />
-            <ProductList t={t} lang={lang} onProductClick={handleProductClick} />
-            <AboutSection t={t} />
+            <Hero setPage={setPage} />
+            <Features />
+            <ProductList onProductClick={handleProductClick} />
+            <AboutSection />
           </>
         );
       case 'products':
-        return <ProductList t={t} lang={lang} onProductClick={handleProductClick} />;
+        return <ProductList onProductClick={handleProductClick} />;
       case 'productDetail':
         return selectedProduct ? (
           <ProductDetail 
-            t={t} 
-            lang={lang} 
             product={selectedProduct} 
             onBack={() => setPage('products')}
             onInquire={handleInquire}
@@ -833,35 +902,32 @@ const App = () => {
           />
         ) : setPage('products');
       case 'about':
-        return <AboutSection t={t} />;
+        return <AboutSection />;
       case 'contact':
-        return <ContactSection t={t} initialMessage={inquirySubject} />;
+        return <ContactSection initialMessage={inquirySubject} />;
       default:
-        return <Hero t={t} setPage={setPage} />;
+        return <Hero setPage={setPage} />;
     }
   };
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-900">
       <Navbar 
-        lang={lang} 
-        setLang={setLang} 
         currentPage={currentPage} 
         setPage={(page) => {
           setPage(page);
           window.scrollTo(0, 0);
-          setInquirySubject(''); // Reset inquiry subject on nav click
+          setInquirySubject(''); 
         }}
         isMobileMenuOpen={isMobileMenuOpen}
         setIsMobileMenuOpen={setIsMobileMenuOpen}
-        t={t}
       />
       
       <main className="flex-grow">
         {renderPage()}
       </main>
 
-      <Footer t={t} setPage={setPage} />
+      <Footer setPage={setPage} />
     </div>
   );
 };
