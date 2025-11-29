@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// --- FIXED: Simplified imports and used more standard icons to prevent errors ---
+// 保持稳定的图标引用
 import { 
   Menu, X, Globe, ArrowRight, Mail, Phone, MapPin, 
   ChevronRight, CheckCircle, Package, FileText, Flame, Droplet, Hammer, Factory, Zap, Wind, Layers
@@ -8,7 +8,7 @@ import {
 // --- Configuration ---
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xmqnbwky"; 
 
-// --- Content & Data ---
+// --- Content & Data (UPDATED WITH DOCX CONTENT) ---
 const content = {
   nav: {
     home: "Home",
@@ -31,7 +31,7 @@ const content = {
     related: "Related Products",
   },
   detail: {
-    desc: "Technical Deep Dive",
+    desc: "Technical Deep Dive", // 改名为“技术深度解析”以匹配长文风
     features: "Key Features",
     apps: "Applications",
     packaging: "Packaging & Storage",
@@ -39,8 +39,10 @@ const content = {
   },
   about: {
     title: "About Changzhou Kingze",
+    // 采用文档中的原话，强调工贸一体和价格优势
     p1: "Changzhou Kingze Composite Materials Co., Ltd. was founded in 2014. It is a professional manufacturer and trading company for fiberglass products, specializing in weaving all kinds of fiberglass textile products. The key to our success is that we can send our clients good quality fiberglass products at a very competitive price.",
     p2: "We have a highly efficient team to deal with inquiries from customers. Our products are mainly exported to American, Brazil, Russia, Romania, Poland, Ukraine, Spain, Hungary, Costa Rica, etc., and enjoy a good reputation among clients.",
+    // 补全了文档中提到的所有产品线（纱线、机器等）
     p3: "We can provide a wide range of products including fiberglass mesh, FIBERGLASS TEXTURIZED FABRIC, fiberglass drywall joint tape, fiberglass cloth (fabric), and also fiber-glass yarn, fiberglass roving, fiberglass weaving machine, weaving machine spare parts, coating glue, etc. Moreover, besides standard products, we also provide an extensive range of customization services.",
     mission: "We are sincerely seeking cooperation with all interested companies worldwide.",
   },
@@ -63,6 +65,7 @@ const productsData = [
     name: "Fiberglass Mesh",
     category: "Reinforcement",
     summary: "The Ultimate Reinforcement Solution for Construction & Industrial Applications.",
+    // 使用 descriptionBlocks 存储多段落专业描述
     descriptionBlocks: [
       "Fiberglass mesh (also known as glass fiber mesh) is a high-performance, versatile material engineered for reinforcement, crack prevention, and structural stability. It serves as the 'steel' inside the wall insulation system.",
       "It is widely used in External Thermal Insulation Composite Systems (ETICS) as a structural layer. By embedding the mesh into the base coat mortar, it forms a robust reinforcement layer that disperses stress caused by temperature changes and structural movements, effectively preventing surface cracking.",
@@ -100,6 +103,7 @@ const productsData = [
     name: "7628 Fiberglass Cloth (Acrylic Coated)",
     category: "Fiberglass Cloth",
     summary: "Ideal protective and reinforcing outer layer for external wall insulation systems.",
+    // 完整植入文档中关于涂层、防水透气、岩棉搭配的描述
     descriptionBlocks: [
       "This 7628 fiberglass cloth is coated with acrylic resin on both sides. The acrylic resin coating creates a smooth, moisture-proof surface that blocks external rainwater and ambient moisture effectively, while the inherent porous structure of the fiberglass base cloth ensures air permeability, allowing trapped water vapor in the insulation layer to escape smoothly.",
       "Beyond these core features, it also boasts fire retardancy, high tensile strength, aging resistance and chemical corrosion resistance, with the base cloth capable of withstanding temperatures below 550℃.",
@@ -133,6 +137,7 @@ const productsData = [
     name: "Fiberglass Texturized Fabric",
     category: "High Temp Insulation",
     summary: "Bulked yarn fabric with high thermal insulation capabilities.",
+    // 加入膨化工艺和石棉替代的描述
     descriptionBlocks: [
       "Woven from texturized fiberglass yarns, this fabric offers superior thickness and air retention, making it an excellent thermal insulator. The texturizing process 'bulks' the yarn, creating tiny air pockets that trap heat effectively.",
       "It is soft, flexible, and easy to handle, serving as an ideal replacement for asbestos cloth. The unique texture provides high dust-holding capacity and better abrasion resistance.",
@@ -162,6 +167,7 @@ const productsData = [
     name: "Fiberglass Drywall Joint Tape",
     category: "Construction",
     summary: "Self-adhesive tape for joining drywall plates and repairing cracks.",
+    // 加入无需预涂层、泥浆渗透的描述
     descriptionBlocks: [
       "A self-adhesive fiberglass mesh tape specifically designed for drywall joint finishing and crack repair. It eliminates the need for a pre-bedding coat, significantly speeding up the construction process.",
       "The tape features a strong, high-tack adhesive that holds firmly to drywall surfaces. Its open mesh structure allows drywall compound (mud) to penetrate through, creating a strong, bubble-free bond that resists cracking and stretching.",
@@ -310,7 +316,7 @@ const Hero = ({ setPage }) => (
 const Features = () => {
   const featuresList = [
     { 
-      icon: <Hammer size={32} />, // Replaced Construction with Hammer
+      icon: <Hammer size={32} />, 
       title: "Reinforcement", 
       desc: "High tensile strength solutions for construction stability." 
     },
@@ -320,7 +326,7 @@ const Features = () => {
       desc: "Non-combustible materials withstanding up to 550℃." 
     },
     { 
-      icon: <Droplet size={32} />, // Replaced Droplets with Droplet
+      icon: <Droplet size={32} />, 
       title: "Waterproof & Breathable", 
       desc: "Acrylic coatings that block moisture while allowing vapor escape." 
     },
@@ -427,6 +433,7 @@ const ProductDetail = ({ product, onBack, onInquire, onProductClick }) => {
           </button>
         </div>
         
+        {/* Top: Gallery & Summary */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
           <div className="flex flex-col gap-4">
             <div className="rounded-xl overflow-hidden shadow-lg bg-slate-100 border border-slate-200 aspect-w-4 aspect-h-3 h-[400px]">
@@ -459,6 +466,7 @@ const ProductDetail = ({ product, onBack, onInquire, onProductClick }) => {
               {product.name}
             </h1>
             
+            {/* Summary */}
             <div className="bg-blue-50 border-l-4 border-blue-600 p-4 mb-8">
               <p className="text-lg text-slate-800 font-medium italic">
                 {product.summary}
@@ -494,6 +502,7 @@ const ProductDetail = ({ product, onBack, onInquire, onProductClick }) => {
           </div>
         </div>
 
+        {/* Middle: Technical Content (UPDATED RENDER LOGIC) */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-20">
           
           <div className="lg:col-span-2">
@@ -501,11 +510,16 @@ const ProductDetail = ({ product, onBack, onInquire, onProductClick }) => {
               {content.detail.desc}
             </h3>
             <div className="prose prose-slate max-w-none text-slate-600">
-              {product.descriptionBlocks && product.descriptionBlocks.map((block, i) => (
-                <p key={i} className="mb-4 text-lg leading-relaxed text-justify">
-                  {block}
-                </p>
-              ))}
+              {/* Intelligent Rendering: Checks for descriptionBlocks (Array) or description (String) */}
+              {product.descriptionBlocks ? (
+                product.descriptionBlocks.map((block, i) => (
+                  <p key={i} className="mb-4 text-lg leading-relaxed text-justify">
+                    {block}
+                  </p>
+                ))
+              ) : (
+                <p className="mb-4 text-lg leading-relaxed text-justify">{product.description || product.summary}</p>
+              )}
             </div>
           </div>
 
@@ -703,8 +717,6 @@ const Footer = ({ setPage }) => (
     </div>
   </footer>
 );
-
-// --- Main App Component ---
 
 const App = () => {
   const [currentPage, setPage] = useState('home');
