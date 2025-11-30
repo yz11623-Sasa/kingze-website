@@ -572,7 +572,7 @@ const ProductDetail = ({ product, onBack, onInquire, onProductClick }) => {
   );
 };
 
-// --- UPDATED ABOUT SECTION with Flags ---
+// --- UPDATED ABOUT SECTION with Flags (Using Images) ---
 const AboutSection = () => (
   <div className="py-20 bg-slate-50">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -643,19 +643,46 @@ const AboutSection = () => (
         </div>
       </div>
       
-      {/* Export Markets Bar with Flags */}
+      {/* Export Markets Bar with Flag Images */}
       <div className="mt-20 border-t border-slate-200 pt-10">
         <p className="text-center text-sm font-bold text-slate-400 uppercase tracking-widest mb-8">Global Export Markets</p>
         <div className="flex flex-wrap justify-center gap-x-12 gap-y-6 text-slate-500 font-semibold">
-           <span className="flex items-center gap-2"><span className="text-2xl">🇺🇸</span> USA</span>
-           <span className="flex items-center gap-2"><span className="text-2xl">🇧🇷</span> Brazil</span>
-           <span className="flex items-center gap-2"><span className="text-2xl">🇷🇺</span> Russia</span>
-           <span className="flex items-center gap-2"><span className="text-2xl">🇪🇸</span> Spain</span>
-           <span className="flex items-center gap-2"><span className="text-2xl">🇵🇱</span> Poland</span>
-           <span className="flex items-center gap-2"><span className="text-2xl">🇷🇴</span> Romania</span>
-           <span className="flex items-center gap-2"><span className="text-2xl">🇺🇦</span> Ukraine</span>
-           <span className="flex items-center gap-2"><span className="text-2xl">🇭🇺</span> Hungary</span>
-           <span className="flex items-center gap-2"><span className="text-2xl">🇨🇷</span> Costa Rica</span>
+           <span className="flex items-center gap-2">
+             <img src="https://flagcdn.com/24x18/us.png" alt="USA" className="h-4 w-6 object-cover shadow-sm rounded-sm" /> 
+             USA
+           </span>
+           <span className="flex items-center gap-2">
+             <img src="https://flagcdn.com/24x18/br.png" alt="Brazil" className="h-4 w-6 object-cover shadow-sm rounded-sm" /> 
+             Brazil
+           </span>
+           <span className="flex items-center gap-2">
+             <img src="https://flagcdn.com/24x18/ru.png" alt="Russia" className="h-4 w-6 object-cover shadow-sm rounded-sm" /> 
+             Russia
+           </span>
+           <span className="flex items-center gap-2">
+             <img src="https://flagcdn.com/24x18/es.png" alt="Spain" className="h-4 w-6 object-cover shadow-sm rounded-sm" /> 
+             Spain
+           </span>
+           <span className="flex items-center gap-2">
+             <img src="https://flagcdn.com/24x18/pl.png" alt="Poland" className="h-4 w-6 object-cover shadow-sm rounded-sm" /> 
+             Poland
+           </span>
+           <span className="flex items-center gap-2">
+             <img src="https://flagcdn.com/24x18/ro.png" alt="Romania" className="h-4 w-6 object-cover shadow-sm rounded-sm" /> 
+             Romania
+           </span>
+           <span className="flex items-center gap-2">
+             <img src="https://flagcdn.com/24x18/ua.png" alt="Ukraine" className="h-4 w-6 object-cover shadow-sm rounded-sm" /> 
+             Ukraine
+           </span>
+           <span className="flex items-center gap-2">
+             <img src="https://flagcdn.com/24x18/hu.png" alt="Hungary" className="h-4 w-6 object-cover shadow-sm rounded-sm" /> 
+             Hungary
+           </span>
+           <span className="flex items-center gap-2">
+             <img src="https://flagcdn.com/24x18/cr.png" alt="Costa Rica" className="h-4 w-6 object-cover shadow-sm rounded-sm" /> 
+             Costa Rica
+           </span>
         </div>
       </div>
     </div>
