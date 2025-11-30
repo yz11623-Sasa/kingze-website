@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// 保持稳定的图标引用
+// --- Icons ---
 import { 
   Menu, X, Globe, ArrowRight, Mail, Phone, MapPin, 
   ChevronRight, CheckCircle, Package, FileText, Flame, Droplet, Hammer, Factory, Zap, Wind, Layers
@@ -8,7 +8,7 @@ import {
 // --- Configuration ---
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xmqnbwky"; 
 
-// --- Content & Data (UPDATED WITH DOCX CONTENT) ---
+// --- Content & Data ---
 const content = {
   nav: {
     home: "Home",
@@ -31,7 +31,7 @@ const content = {
     related: "Related Products",
   },
   detail: {
-    desc: "Technical Deep Dive", // 改名为“技术深度解析”以匹配长文风
+    desc: "Technical Deep Dive",
     features: "Key Features",
     apps: "Applications",
     packaging: "Packaging & Storage",
@@ -39,10 +39,8 @@ const content = {
   },
   about: {
     title: "About Changzhou Kingze",
-    // 采用文档中的原话，强调工贸一体和价格优势
     p1: "Changzhou Kingze Composite Materials Co., Ltd. was founded in 2014. It is a professional manufacturer and trading company for fiberglass products, specializing in weaving all kinds of fiberglass textile products. The key to our success is that we can send our clients good quality fiberglass products at a very competitive price.",
     p2: "We have a highly efficient team to deal with inquiries from customers. Our products are mainly exported to American, Brazil, Russia, Romania, Poland, Ukraine, Spain, Hungary, Costa Rica, etc., and enjoy a good reputation among clients.",
-    // 补全了文档中提到的所有产品线（纱线、机器等）
     p3: "We can provide a wide range of products including fiberglass mesh, FIBERGLASS TEXTURIZED FABRIC, fiberglass drywall joint tape, fiberglass cloth (fabric), and also fiber-glass yarn, fiberglass roving, fiberglass weaving machine, weaving machine spare parts, coating glue, etc. Moreover, besides standard products, we also provide an extensive range of customization services.",
     mission: "We are sincerely seeking cooperation with all interested companies worldwide.",
   },
@@ -65,7 +63,6 @@ const productsData = [
     name: "Fiberglass Mesh",
     category: "Reinforcement",
     summary: "The Ultimate Reinforcement Solution for Construction & Industrial Applications.",
-    // 使用 descriptionBlocks 存储多段落专业描述
     descriptionBlocks: [
       "Fiberglass mesh (also known as glass fiber mesh) is a high-performance, versatile material engineered for reinforcement, crack prevention, and structural stability. It serves as the 'steel' inside the wall insulation system.",
       "It is widely used in External Thermal Insulation Composite Systems (ETICS) as a structural layer. By embedding the mesh into the base coat mortar, it forms a robust reinforcement layer that disperses stress caused by temperature changes and structural movements, effectively preventing surface cracking.",
@@ -103,7 +100,6 @@ const productsData = [
     name: "7628 Fiberglass Cloth (Acrylic Coated)",
     category: "Fiberglass Cloth",
     summary: "Ideal protective and reinforcing outer layer for external wall insulation systems.",
-    // 完整植入文档中关于涂层、防水透气、岩棉搭配的描述
     descriptionBlocks: [
       "This 7628 fiberglass cloth is coated with acrylic resin on both sides. The acrylic resin coating creates a smooth, moisture-proof surface that blocks external rainwater and ambient moisture effectively, while the inherent porous structure of the fiberglass base cloth ensures air permeability, allowing trapped water vapor in the insulation layer to escape smoothly.",
       "Beyond these core features, it also boasts fire retardancy, high tensile strength, aging resistance and chemical corrosion resistance, with the base cloth capable of withstanding temperatures below 550℃.",
@@ -137,7 +133,6 @@ const productsData = [
     name: "Fiberglass Texturized Fabric",
     category: "High Temp Insulation",
     summary: "Bulked yarn fabric with high thermal insulation capabilities.",
-    // 加入膨化工艺和石棉替代的描述
     descriptionBlocks: [
       "Woven from texturized fiberglass yarns, this fabric offers superior thickness and air retention, making it an excellent thermal insulator. The texturizing process 'bulks' the yarn, creating tiny air pockets that trap heat effectively.",
       "It is soft, flexible, and easy to handle, serving as an ideal replacement for asbestos cloth. The unique texture provides high dust-holding capacity and better abrasion resistance.",
@@ -167,7 +162,6 @@ const productsData = [
     name: "Fiberglass Drywall Joint Tape",
     category: "Construction",
     summary: "Self-adhesive tape for joining drywall plates and repairing cracks.",
-    // 加入无需预涂层、泥浆渗透的描述
     descriptionBlocks: [
       "A self-adhesive fiberglass mesh tape specifically designed for drywall joint finishing and crack repair. It eliminates the need for a pre-bedding coat, significantly speeding up the construction process.",
       "The tape features a strong, high-tack adhesive that holds firmly to drywall surfaces. Its open mesh structure allows drywall compound (mud) to penetrate through, creating a strong, bubble-free bond that resists cracking and stretching.",
@@ -502,7 +496,7 @@ const ProductDetail = ({ product, onBack, onInquire, onProductClick }) => {
           </div>
         </div>
 
-        {/* Middle: Technical Content (UPDATED RENDER LOGIC) */}
+        {/* Middle: Technical Content */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-20">
           
           <div className="lg:col-span-2">
@@ -510,7 +504,6 @@ const ProductDetail = ({ product, onBack, onInquire, onProductClick }) => {
               {content.detail.desc}
             </h3>
             <div className="prose prose-slate max-w-none text-slate-600">
-              {/* Intelligent Rendering: Checks for descriptionBlocks (Array) or description (String) */}
               {product.descriptionBlocks ? (
                 product.descriptionBlocks.map((block, i) => (
                   <p key={i} className="mb-4 text-lg leading-relaxed text-justify">
@@ -579,6 +572,7 @@ const ProductDetail = ({ product, onBack, onInquire, onProductClick }) => {
   );
 };
 
+// --- UPDATED ABOUT SECTION with Flags ---
 const AboutSection = () => (
   <div className="py-20 bg-slate-50">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -649,23 +643,172 @@ const AboutSection = () => (
         </div>
       </div>
       
+      {/* Export Markets Bar with Flags */}
       <div className="mt-20 border-t border-slate-200 pt-10">
         <p className="text-center text-sm font-bold text-slate-400 uppercase tracking-widest mb-8">Global Export Markets</p>
-        <div className="flex flex-wrap justify-center gap-x-12 gap-y-4 text-slate-500 font-semibold">
-           <span>USA</span>
-           <span>Brazil</span>
-           <span>Russia</span>
-           <span>Spain</span>
-           <span>Poland</span>
-           <span>Romania</span>
-           <span>Ukraine</span>
-           <span>Hungary</span>
-           <span>Costa Rica</span>
+        <div className="flex flex-wrap justify-center gap-x-12 gap-y-6 text-slate-500 font-semibold">
+           <span className="flex items-center gap-2"><span className="text-2xl">🇺🇸</span> USA</span>
+           <span className="flex items-center gap-2"><span className="text-2xl">🇧🇷</span> Brazil</span>
+           <span className="flex items-center gap-2"><span className="text-2xl">🇷🇺</span> Russia</span>
+           <span className="flex items-center gap-2"><span className="text-2xl">🇪🇸</span> Spain</span>
+           <span className="flex items-center gap-2"><span className="text-2xl">🇵🇱</span> Poland</span>
+           <span className="flex items-center gap-2"><span className="text-2xl">🇷🇴</span> Romania</span>
+           <span className="flex items-center gap-2"><span className="text-2xl">🇺🇦</span> Ukraine</span>
+           <span className="flex items-center gap-2"><span className="text-2xl">🇭🇺</span> Hungary</span>
+           <span className="flex items-center gap-2"><span className="text-2xl">🇨🇷</span> Costa Rica</span>
         </div>
       </div>
     </div>
   </div>
 );
+
+const ContactSection = ({ initialMessage }) => {
+  const [formState, setFormState] = useState({
+    name: '',
+    email: '',
+    message: initialMessage || ''
+  });
+  const [status, setStatus] = useState(null); 
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!formState.name || !formState.email || !formState.message) {
+      setStatus('error');
+      return;
+    }
+    
+    setStatus('sending');
+
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        body: JSON.stringify(formState),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        setFormState({ name: '', email: '', message: '' }); 
+        setTimeout(() => setStatus(null), 5000);
+      } else {
+        setStatus('error');
+      }
+    } catch (error) {
+      setStatus('error');
+    }
+  };
+
+  return (
+    <div className="py-20 bg-white">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-extrabold text-slate-900">{content.contact.title}</h2>
+          <p className="mt-4 text-lg text-slate-500">{content.contact.subtitle}</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="col-span-1 bg-slate-900 text-white rounded-xl p-8 flex flex-col justify-between">
+             <div>
+               <h3 className="font-bold text-lg mb-6">Contact Info</h3>
+               <div className="space-y-6">
+                 <div className="flex items-start gap-3">
+                   <MapPin className="text-blue-400 mt-1" size={20} />
+                   <p className="text-sm text-slate-300 leading-relaxed">
+                     Changzhou Kingze Composite Materials Co.,Ltd.<br/>
+                     Changzhou, Jiangsu, China
+                   </p>
+                 </div>
+                 <div className="flex items-center gap-3">
+                   <Mail className="text-blue-400" size={20} />
+                   <p className="text-sm text-slate-300">sales@kingze-composites.com</p>
+                 </div>
+                 <div className="flex items-center gap-3">
+                   <Phone className="text-blue-400" size={20} />
+                   <p className="text-sm text-slate-300">+86 138 0000 0000</p>
+                 </div>
+               </div>
+             </div>
+             <div className="mt-8 pt-8 border-t border-slate-700">
+               <p className="text-xs text-slate-500">Working Hours: Mon-Fri, 9am - 6pm (GMT+8)</p>
+             </div>
+          </div>
+
+          <div className="col-span-2 bg-slate-50 shadow-lg rounded-xl p-8 border border-slate-100">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 mb-2">{content.contact.name}</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formState.name}
+                    onChange={(e) => setFormState({...formState, name: e.target.value})}
+                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white py-3 px-4 border"
+                    placeholder="John Doe"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 mb-2">{content.contact.email}</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formState.email}
+                    onChange={(e) => setFormState({...formState, email: e.target.value})}
+                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white py-3 px-4 border"
+                    placeholder="john@company.com"
+                    required
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-slate-700 mb-2">{content.contact.message}</label>
+                <textarea
+                  rows={4}
+                  name="message"
+                  value={formState.message}
+                  onChange={(e) => setFormState({...formState, message: e.target.value})}
+                  className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white py-3 px-4 border"
+                  placeholder="I am interested in..."
+                  required
+                />
+              </div>
+
+              {status === 'error' && (
+                <div className="text-red-600 text-sm text-center bg-red-50 p-3 rounded-md font-medium">
+                  {content.contact.error}
+                </div>
+              )}
+              
+              {status === 'success' && (
+                <div className="text-green-600 text-sm text-center bg-green-50 p-3 rounded-md font-medium">
+                  {content.contact.success}
+                </div>
+              )}
+              
+              {status === 'sending' && (
+                <div className="text-blue-600 text-sm text-center bg-blue-50 p-3 rounded-md font-medium">
+                  {content.contact.sending}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={status === 'sending'}
+                className={`w-full flex justify-center py-4 px-4 border border-transparent rounded-md shadow-lg text-base font-bold text-white ${status === 'sending' ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all`}
+              >
+                {status === 'sending' ? content.contact.sending : content.contact.submit}
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Footer = ({ setPage }) => (
   <footer className="bg-slate-900 text-slate-300 py-16 border-t border-slate-800">
@@ -718,6 +861,7 @@ const Footer = ({ setPage }) => (
   </footer>
 );
 
+// --- UPDATED MAIN APP ---
 const App = () => {
   const [currentPage, setPage] = useState('home');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -742,9 +886,9 @@ const App = () => {
         return (
           <>
             <Hero setPage={setPage} />
-            <Features />
-            <ProductList onProductClick={handleProductClick} />
             <AboutSection />
+            <ProductList onProductClick={handleProductClick} />
+            <Features />
           </>
         );
       case 'products':
