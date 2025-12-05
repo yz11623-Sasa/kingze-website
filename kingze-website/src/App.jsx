@@ -15,7 +15,6 @@ const content = {
     products: "Products",
     about: "About Us",
     contact: "Contact",
-    languages: "Global Sites",
   },
   hero: {
     title: "WARMTH & STRENGTH IN EVERY FIBER",
@@ -196,7 +195,6 @@ const productsData = [
 // --- Components ---
 
 const Navbar = ({ currentPage, setPage, isMobileMenuOpen, setIsMobileMenuOpen }) => (
-  // STYLE UPDATE: Changed from slate-900 (blue/grey) to stone-900 (warm grey)
   <nav className="bg-stone-900 text-stone-100 sticky top-0 z-50 shadow-xl border-b border-stone-800">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex items-center justify-between h-24">
@@ -213,13 +211,12 @@ const Navbar = ({ currentPage, setPage, isMobileMenuOpen, setIsMobileMenuOpen })
             />
           </div>
           <div className="flex flex-col">
-            {/* STYLE UPDATE: Text color warmth */}
             <span className="leading-none text-2xl font-extrabold tracking-tight text-white group-hover:text-orange-500 transition-colors">KINGZE</span>
             <span className="text-[10px] text-orange-400 font-bold tracking-[0.2em] uppercase">Composites</span>
           </div>
         </div>
 
-        <div className="hidden lg:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-6">
           <div className="flex items-baseline space-x-2 bg-stone-800/50 p-1 rounded-lg">
             {['home', 'products', 'about', 'contact'].map((key) => (
               <button
@@ -236,9 +233,10 @@ const Navbar = ({ currentPage, setPage, isMobileMenuOpen, setIsMobileMenuOpen })
             ))}
           </div>
           
-          {/* SOCIAL MEDIA CLUSTER - PROMINENT */}
+          {/* SOCIAL MEDIA & LANGUAGE - PROMINENT */}
           <div className="flex items-center gap-3 border-l border-stone-700 pl-6">
-            <span className="text-xs font-bold text-stone-500 uppercase tracking-widest hidden xl:block">Connect:</span>
+            
+            {/* Social Icons */}
             <a 
               href="https://www.facebook.com/kingzefiberglass" 
               target="_blank" 
@@ -252,12 +250,29 @@ const Navbar = ({ currentPage, setPage, isMobileMenuOpen, setIsMobileMenuOpen })
               href="https://www.instagram.com/hui.zhong.5059/" 
               target="_blank" 
               rel="noopener noreferrer" 
-              // Instagram Gradient Background
               className="bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] p-2 rounded-full text-white hover:scale-110 hover:shadow-lg hover:shadow-pink-900/50 transition-all duration-300"
               title="Follow us on Instagram"
             >
               <Instagram size={20} />
             </a>
+
+            {/* Language Selector (Restored!) */}
+            <div className="relative group ml-2">
+              <button className="flex items-center gap-1 bg-stone-800 hover:bg-stone-700 text-stone-300 px-3 py-2 rounded-lg transition-colors border border-stone-700">
+                <Globe size={18} className="text-orange-500" />
+                <span className="text-xs font-bold uppercase">Global</span>
+              </button>
+              {/* Dropdown Menu */}
+              <div className="absolute right-0 mt-2 w-48 bg-stone-800 rounded-xl shadow-2xl py-2 hidden group-hover:block border border-stone-700 z-50">
+                 <div className="px-4 py-2 text-sm text-white font-bold border-b border-stone-700 bg-stone-700/50">Select Language</div>
+                 <button className="w-full text-left px-4 py-2 text-sm text-orange-400 font-bold bg-stone-700/30">English (EN)</button>
+                 <button className="w-full text-left px-4 py-2 text-sm text-stone-400 hover:text-white hover:bg-stone-700 transition-colors">Español (Coming Soon)</button>
+                 <button className="w-full text-left px-4 py-2 text-sm text-stone-400 hover:text-white hover:bg-stone-700 transition-colors">Français (Coming Soon)</button>
+                 <button className="w-full text-left px-4 py-2 text-sm text-stone-400 hover:text-white hover:bg-stone-700 transition-colors">Русский (Coming Soon)</button>
+                 <button className="w-full text-left px-4 py-2 text-sm text-stone-400 hover:text-white hover:bg-stone-700 transition-colors">العربية (Coming Soon)</button>
+              </div>
+            </div>
+
           </div>
         </div>
 
@@ -303,7 +318,6 @@ const Hero = ({ setPage }) => (
         alt="Fiberglass Weaving Factory" 
         className="w-full h-full object-cover opacity-40 mix-blend-overlay"
       />
-      {/* STYLE UPDATE: Warm gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-r from-stone-900 via-stone-900/90 to-orange-900/30"></div>
     </div>
     <div className="relative max-w-7xl mx-auto py-32 px-4 sm:py-40 sm:px-6 lg:px-8">
@@ -362,7 +376,6 @@ const Features = () => {
   ];
 
   return (
-    // STYLE UPDATE: Warm background
     <div className="py-24 bg-stone-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
@@ -372,7 +385,6 @@ const Features = () => {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           {featuresList.map((item, idx) => (
             <div key={idx} className="group flex flex-col items-center text-center p-8 bg-white rounded-2xl border border-stone-100 hover:border-orange-200 shadow-sm hover:shadow-xl transition-all duration-300">
-              {/* STYLE UPDATE: Green accents for eco/features */}
               <div className="p-5 bg-emerald-50 text-emerald-600 rounded-full mb-6 group-hover:bg-orange-50 group-hover:text-orange-600 transition-colors duration-300">
                 {item.icon}
               </div>
@@ -397,7 +409,6 @@ const ProductCard = ({ product, onClick }) => (
         alt={product.name} 
         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
       />
-      {/* STYLE UPDATE: Orange badge */}
       <div className="absolute top-4 right-4 bg-orange-600 text-white text-xs font-extrabold px-4 py-1.5 rounded-full uppercase tracking-wider shadow-lg">
         {product.category}
       </div>
