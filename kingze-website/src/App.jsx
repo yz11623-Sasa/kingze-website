@@ -15,15 +15,17 @@ const content = {
     products: "Products",
     about: "About Us",
     contact: "Contact",
+    languages: "Global Sites",
   },
   hero: {
-    title: "WARMTH & STRENGTH IN EVERY FIBER",
-    subtitle: "Professional manufacturer of Fiberglass Insulation Materials. Delivering energy efficiency and structural integrity to the world since 2014.",
+    // UPDATED: More direct, product-focused headline
+    title: "PROFESSIONAL FIBERGLASS MANUFACTURER",
+    subtitle: "Direct export of Fiberglass Mesh, Cloth, and Insulation Materials. High-quality reinforcement solutions for global construction since 2014.",
     cta: "Explore Solutions",
   },
   products: {
     title: "Our Product Range",
-    subtitle: "High-performance insulation & reinforcement materials for modern construction.",
+    subtitle: "High-performance materials for construction, marine, and wind energy sectors.",
     viewDetails: "View Specifications",
     back: "Back to Products",
     inquire: "Inquire About This Product",
@@ -216,6 +218,7 @@ const Navbar = ({ currentPage, setPage, isMobileMenuOpen, setIsMobileMenuOpen })
           </div>
         </div>
 
+        {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-6">
           <div className="flex items-baseline space-x-2 bg-stone-800/50 p-1 rounded-lg">
             {['home', 'products', 'about', 'contact'].map((key) => (
@@ -233,10 +236,7 @@ const Navbar = ({ currentPage, setPage, isMobileMenuOpen, setIsMobileMenuOpen })
             ))}
           </div>
           
-          {/* SOCIAL MEDIA & LANGUAGE - PROMINENT */}
           <div className="flex items-center gap-3 border-l border-stone-700 pl-6">
-            
-            {/* Social Icons */}
             <a 
               href="https://www.facebook.com/kingzefiberglass" 
               target="_blank" 
@@ -255,31 +255,34 @@ const Navbar = ({ currentPage, setPage, isMobileMenuOpen, setIsMobileMenuOpen })
             >
               <Instagram size={20} />
             </a>
-
-            {/* Language Selector (Restored!) */}
-            <div className="relative group ml-2">
-              <button className="flex items-center gap-1 bg-stone-800 hover:bg-stone-700 text-stone-300 px-3 py-2 rounded-lg transition-colors border border-stone-700">
-                <Globe size={18} className="text-orange-500" />
-                <span className="text-xs font-bold uppercase">Global</span>
-              </button>
-              {/* Dropdown Menu */}
-              <div className="absolute right-0 mt-2 w-48 bg-stone-800 rounded-xl shadow-2xl py-2 hidden group-hover:block border border-stone-700 z-50">
-                 <div className="px-4 py-2 text-sm text-white font-bold border-b border-stone-700 bg-stone-700/50">Select Language</div>
-                 <button className="w-full text-left px-4 py-2 text-sm text-orange-400 font-bold bg-stone-700/30">English (EN)</button>
-                 <button className="w-full text-left px-4 py-2 text-sm text-stone-400 hover:text-white hover:bg-stone-700 transition-colors">Español (Coming Soon)</button>
-                 <button className="w-full text-left px-4 py-2 text-sm text-stone-400 hover:text-white hover:bg-stone-700 transition-colors">Français (Coming Soon)</button>
-                 <button className="w-full text-left px-4 py-2 text-sm text-stone-400 hover:text-white hover:bg-stone-700 transition-colors">Русский (Coming Soon)</button>
-                 <button className="w-full text-left px-4 py-2 text-sm text-stone-400 hover:text-white hover:bg-stone-700 transition-colors">العربية (Coming Soon)</button>
-              </div>
-            </div>
-
           </div>
         </div>
 
-        <div className="lg:hidden">
-          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 rounded-md text-stone-300 hover:text-white hover:bg-stone-800">
-            {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
+        {/* Right side controls (Mobile & Desktop) */}
+        <div className="flex items-center gap-4">
+          
+          {/* LANGUAGE SELECTOR - Fixed placement, never collapses */}
+          <div className="relative group">
+            <button className="flex items-center gap-1 bg-stone-800 hover:bg-stone-700 text-stone-300 px-3 py-2 rounded-lg transition-colors border border-stone-700">
+              <Globe size={20} className="text-orange-500" />
+              <span className="hidden sm:inline text-xs font-bold uppercase">Global</span>
+            </button>
+            <div className="absolute right-0 mt-2 w-48 bg-stone-800 rounded-xl shadow-2xl py-2 hidden group-hover:block border border-stone-700 z-50">
+               <div className="px-4 py-2 text-sm text-white font-bold border-b border-stone-700 bg-stone-700/50">Select Language</div>
+               <button className="w-full text-left px-4 py-2 text-sm text-orange-400 font-bold bg-stone-700/30">English (EN)</button>
+               <button className="w-full text-left px-4 py-2 text-sm text-stone-400 hover:text-white hover:bg-stone-700 transition-colors">Español (Coming Soon)</button>
+               <button className="w-full text-left px-4 py-2 text-sm text-stone-400 hover:text-white hover:bg-stone-700 transition-colors">Français (Coming Soon)</button>
+               <button className="w-full text-left px-4 py-2 text-sm text-stone-400 hover:text-white hover:bg-stone-700 transition-colors">Русский (Coming Soon)</button>
+               <button className="w-full text-left px-4 py-2 text-sm text-stone-400 hover:text-white hover:bg-stone-700 transition-colors">العربية (Coming Soon)</button>
+            </div>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="lg:hidden">
+            <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 rounded-md text-stone-300 hover:text-white hover:bg-stone-800">
+              {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -627,7 +630,6 @@ const ProductDetail = ({ product, onBack, onInquire, onProductClick }) => {
   );
 };
 
-// --- UPDATED ABOUT SECTION (Warm Theme) ---
 const AboutSection = () => (
   <div className="py-24 bg-stone-50">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
