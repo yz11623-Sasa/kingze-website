@@ -18,7 +18,6 @@ const content = {
     languages: "Global Sites",
   },
   hero: {
-    // UPDATED: More direct, product-focused headline
     title: "PROFESSIONAL FIBERGLASS MANUFACTURER",
     subtitle: "Direct export of Fiberglass Mesh, Cloth, and Insulation Materials. High-quality reinforcement solutions for global construction since 2014.",
     cta: "Explore Solutions",
@@ -125,9 +124,12 @@ const productsData = [
       { label: "Temp Resistance", value: "< 550℃" },
       { label: "Weight", value: "200g/m² (Typical)" }
     ],
+    // --- UPDATED: Added your 4 new images ---
     images: [
-      "https://images.unsplash.com/photo-1520694478166-daaaaec95b69?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1615822461461-6e3040254b4f?auto=format&fit=crop&q=80&w=800"
+      "/cloth-waterproof-demo.jpg",    // (图23) 防水演示
+      "/cloth-texture-detail.jpg",     // (图24) 细节特写
+      "/cloth-construction-site.jpg",  // (图25) 施工场景
+      "/cloth-production-machine.jpg"  // (图26) 生产设备
     ]
   },
   {
@@ -218,7 +220,6 @@ const Navbar = ({ currentPage, setPage, isMobileMenuOpen, setIsMobileMenuOpen })
           </div>
         </div>
 
-        {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-6">
           <div className="flex items-baseline space-x-2 bg-stone-800/50 p-1 rounded-lg">
             {['home', 'products', 'about', 'contact'].map((key) => (
@@ -236,7 +237,10 @@ const Navbar = ({ currentPage, setPage, isMobileMenuOpen, setIsMobileMenuOpen })
             ))}
           </div>
           
+          {/* SOCIAL MEDIA & LANGUAGE - PROMINENT */}
           <div className="flex items-center gap-3 border-l border-stone-700 pl-6">
+            
+            {/* Social Icons */}
             <a 
               href="https://www.facebook.com/kingzefiberglass" 
               target="_blank" 
@@ -255,34 +259,30 @@ const Navbar = ({ currentPage, setPage, isMobileMenuOpen, setIsMobileMenuOpen })
             >
               <Instagram size={20} />
             </a>
+
+            {/* Language Selector */}
+            <div className="relative group ml-2">
+              <button className="flex items-center gap-1 bg-stone-800 hover:bg-stone-700 text-stone-300 px-3 py-2 rounded-lg transition-colors border border-stone-700">
+                <Globe size={20} className="text-orange-500" />
+                <span className="hidden sm:inline text-xs font-bold uppercase">Global</span>
+              </button>
+              <div className="absolute right-0 mt-2 w-48 bg-stone-800 rounded-xl shadow-2xl py-2 hidden group-hover:block border border-stone-700 z-50">
+                 <div className="px-4 py-2 text-sm text-white font-bold border-b border-stone-700 bg-stone-700/50">Select Language</div>
+                 <button className="w-full text-left px-4 py-2 text-sm text-orange-400 font-bold bg-stone-700/30">English (EN)</button>
+                 <button className="w-full text-left px-4 py-2 text-sm text-stone-400 hover:text-white hover:bg-stone-700 transition-colors">Español (Coming Soon)</button>
+                 <button className="w-full text-left px-4 py-2 text-sm text-stone-400 hover:text-white hover:bg-stone-700 transition-colors">Français (Coming Soon)</button>
+                 <button className="w-full text-left px-4 py-2 text-sm text-stone-400 hover:text-white hover:bg-stone-700 transition-colors">Русский (Coming Soon)</button>
+                 <button className="w-full text-left px-4 py-2 text-sm text-stone-400 hover:text-white hover:bg-stone-700 transition-colors">العربية (Coming Soon)</button>
+              </div>
+            </div>
+
           </div>
         </div>
 
-        {/* Right side controls (Mobile & Desktop) */}
-        <div className="flex items-center gap-4">
-          
-          {/* LANGUAGE SELECTOR - Fixed placement, never collapses */}
-          <div className="relative group">
-            <button className="flex items-center gap-1 bg-stone-800 hover:bg-stone-700 text-stone-300 px-3 py-2 rounded-lg transition-colors border border-stone-700">
-              <Globe size={20} className="text-orange-500" />
-              <span className="hidden sm:inline text-xs font-bold uppercase">Global</span>
-            </button>
-            <div className="absolute right-0 mt-2 w-48 bg-stone-800 rounded-xl shadow-2xl py-2 hidden group-hover:block border border-stone-700 z-50">
-               <div className="px-4 py-2 text-sm text-white font-bold border-b border-stone-700 bg-stone-700/50">Select Language</div>
-               <button className="w-full text-left px-4 py-2 text-sm text-orange-400 font-bold bg-stone-700/30">English (EN)</button>
-               <button className="w-full text-left px-4 py-2 text-sm text-stone-400 hover:text-white hover:bg-stone-700 transition-colors">Español (Coming Soon)</button>
-               <button className="w-full text-left px-4 py-2 text-sm text-stone-400 hover:text-white hover:bg-stone-700 transition-colors">Français (Coming Soon)</button>
-               <button className="w-full text-left px-4 py-2 text-sm text-stone-400 hover:text-white hover:bg-stone-700 transition-colors">Русский (Coming Soon)</button>
-               <button className="w-full text-left px-4 py-2 text-sm text-stone-400 hover:text-white hover:bg-stone-700 transition-colors">العربية (Coming Soon)</button>
-            </div>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="lg:hidden">
-            <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 rounded-md text-stone-300 hover:text-white hover:bg-stone-800">
-              {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-            </button>
-          </div>
+        <div className="lg:hidden">
+          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 rounded-md text-stone-300 hover:text-white hover:bg-stone-800">
+            {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
         </div>
       </div>
     </div>
@@ -313,25 +313,21 @@ const Navbar = ({ currentPage, setPage, isMobileMenuOpen, setIsMobileMenuOpen })
   </nav>
 );
 
+// --- UPDATED HERO: Carousel + Lighter Overlay ---
 const Hero = ({ setPage }) => (
   <div className="relative bg-stone-900 overflow-hidden">
-    <div className="absolute inset-0">
-      <img 
-        src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=2000" 
-        alt="Fiberglass Weaving Factory" 
-        className="w-full h-full object-cover opacity-40 mix-blend-overlay"
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-stone-900 via-stone-900/90 to-orange-900/30"></div>
-    </div>
+    {/* Carousel Logic */}
+    <CarouselBackground />
+    
     <div className="relative max-w-7xl mx-auto py-32 px-4 sm:py-40 sm:px-6 lg:px-8">
       <div className="max-w-3xl">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-600/20 border border-orange-500/30 text-orange-400 text-sm font-bold mb-6 tracking-wide uppercase">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-600/30 border border-orange-500/50 text-orange-200 text-sm font-bold mb-6 tracking-wide uppercase backdrop-blur-sm">
           <Flame size={14} /> Heat Insulation Experts
         </div>
-        <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-6xl lg:text-7xl mb-8 leading-tight">
+        <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-6xl lg:text-7xl mb-8 leading-tight drop-shadow-lg">
           {content.hero.title}
         </h1>
-        <p className="mt-4 text-xl text-stone-300 leading-relaxed max-w-2xl border-l-4 border-orange-600 pl-6">
+        <p className="mt-4 text-xl text-stone-100 leading-relaxed max-w-2xl border-l-4 border-orange-500 pl-6 drop-shadow-md font-medium">
           {content.hero.subtitle}
         </p>
         <div className="mt-12 flex flex-col sm:flex-row gap-4">
@@ -344,7 +340,7 @@ const Hero = ({ setPage }) => (
           </button>
           <button 
             onClick={() => setPage('contact')}
-            className="inline-flex justify-center items-center px-8 py-4 border-2 border-stone-600 text-lg font-bold rounded-lg text-stone-300 hover:bg-stone-800 hover:text-white transition-all hover:border-stone-500"
+            className="inline-flex justify-center items-center px-8 py-4 border-2 border-white/30 bg-black/20 backdrop-blur-sm text-lg font-bold rounded-lg text-white hover:bg-white hover:text-stone-900 transition-all"
           >
             Contact Sales
           </button>
@@ -353,6 +349,41 @@ const Hero = ({ setPage }) => (
     </div>
   </div>
 );
+
+// --- Helper Component for Hero Carousel ---
+const CarouselBackground = () => {
+  const images = [
+    '/hero-comfort-home.jpg',
+    '/hero-winter-insulation.jpg'
+  ];
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % images.length);
+    }, 5000); // Change every 5 seconds
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <>
+      {images.map((img, idx) => (
+        <div 
+          key={idx}
+          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${current === idx ? 'opacity-100' : 'opacity-0'}`}
+        >
+          <img 
+            src={img} 
+            alt={`Hero Background ${idx}`} 
+            className="w-full h-full object-cover"
+          />
+        </div>
+      ))}
+      {/* Light Overlay: changed from thick gradient to light black wash */}
+      <div className="absolute inset-0 bg-black/40"></div>
+    </>
+  );
+};
 
 const Features = () => {
   const featuresList = [
@@ -892,7 +923,7 @@ const Footer = ({ setPage }) => (
             Your trusted partner in high-performance fiberglass reinforcement and insulation solutions.
           </p>
           <div className="flex gap-4">
-             {/* FOOTER SOCIAL LINKS - PROMINENT */}
+             {/* FOOTER SOCIAL LINKS */}
              <a 
                href="https://www.facebook.com/kingzefiberglass" 
                target="_blank" 
