@@ -750,11 +750,11 @@ const ContactSection = ({ initialMessage }) => {
                  </div>
                  <div className="flex items-center gap-3">
                    <Mail className="text-blue-400" size={20} />
-                   <p className="text-sm text-slate-300">sales@kingze-composites.com</p>
+                   <p className="text-sm text-slate-300">kimzhong@kingze.cn</p>
                  </div>
                  <div className="flex items-center gap-3">
                    <Phone className="text-blue-400" size={20} />
-                   <p className="text-sm text-slate-300">+86 138 0000 0000</p>
+                   <p className="text-sm text-slate-300">+86 135 0578 7801</p>
                  </div>
                </div>
              </div>
@@ -961,3 +961,4 @@ const App = () => {
 };
 
 export default App;
+
