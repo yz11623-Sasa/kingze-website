@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 // --- Icons ---
 import { 
   Menu, X, Globe, ArrowRight, Mail, Phone, MapPin, 
-  ChevronRight, CheckCircle, Package, FileText, Flame, Droplet, Hammer, Factory, Zap, Wind, Layers, Download, Facebook, Instagram
+  ChevronRight, CheckCircle, Package, FileText, Flame, Droplet, Hammer, Factory, Zap, Wind, Layers, Download, Facebook, Instagram, MessageCircle
 } from 'lucide-react';
 
 // --- Configuration ---
@@ -18,7 +18,8 @@ const content = {
     languages: "Global Sites",
   },
   hero: {
-    title: "PROFESSIONAL FIBERGLASS MANUFACTURER",
+    // UPDATED: More specific title
+    title: "PROFESSIONAL FIBERGLASS PRODUCTS (TEXTILES) SUPPLIER",
     subtitle: "Direct export of Fiberglass Mesh, Cloth, and Insulation Materials. High-quality reinforcement solutions for global construction since 2014.",
     cta: "Explore Solutions",
   },
@@ -124,12 +125,11 @@ const productsData = [
       { label: "Temp Resistance", value: "< 550℃" },
       { label: "Weight", value: "200g/m² (Typical)" }
     ],
-    // --- UPDATED: Added your 4 new images ---
     images: [
-      "/cloth-waterproof-demo.jpg",    // (图23) 防水演示
-      "/cloth-texture-detail.jpg",     // (图24) 细节特写
-      "/cloth-construction-site.jpg",  // (图25) 施工场景
-      "/cloth-production-machine.jpg"  // (图26) 生产设备
+      "/cloth-waterproof-demo.jpg",    // (图23)
+      "/cloth-texture-detail.jpg",     // (图24)
+      "/cloth-construction-site.jpg",  // (图25)
+      "/cloth-production-machine.jpg"  // (图26)
     ]
   },
   {
@@ -313,12 +313,44 @@ const Navbar = ({ currentPage, setPage, isMobileMenuOpen, setIsMobileMenuOpen })
   </nav>
 );
 
-// --- UPDATED HERO: Carousel + Lighter Overlay ---
+// --- Helper Component for Hero Carousel ---
+const CarouselBackground = () => {
+  const images = [
+    '/hero-comfort-home.jpg',
+    '/hero-winter-insulation.jpg'
+  ];
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % images.length);
+    }, 5000); 
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <>
+      {images.map((img, idx) => (
+        <div 
+          key={idx}
+          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${current === idx ? 'opacity-100' : 'opacity-0'}`}
+        >
+          <img 
+            src={img} 
+            alt={`Hero Background ${idx}`} 
+            className="w-full h-full object-cover"
+          />
+        </div>
+      ))}
+      {/* Light Overlay */}
+      <div className="absolute inset-0 bg-black/40"></div>
+    </>
+  );
+};
+
 const Hero = ({ setPage }) => (
   <div className="relative bg-stone-900 overflow-hidden">
-    {/* Carousel Logic */}
     <CarouselBackground />
-    
     <div className="relative max-w-7xl mx-auto py-32 px-4 sm:py-40 sm:px-6 lg:px-8">
       <div className="max-w-3xl">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-600/30 border border-orange-500/50 text-orange-200 text-sm font-bold mb-6 tracking-wide uppercase backdrop-blur-sm">
@@ -349,41 +381,6 @@ const Hero = ({ setPage }) => (
     </div>
   </div>
 );
-
-// --- Helper Component for Hero Carousel ---
-const CarouselBackground = () => {
-  const images = [
-    '/hero-comfort-home.jpg',
-    '/hero-winter-insulation.jpg'
-  ];
-  const [current, setCurrent] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % images.length);
-    }, 5000); // Change every 5 seconds
-    return () => clearInterval(timer);
-  }, []);
-
-  return (
-    <>
-      {images.map((img, idx) => (
-        <div 
-          key={idx}
-          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${current === idx ? 'opacity-100' : 'opacity-0'}`}
-        >
-          <img 
-            src={img} 
-            alt={`Hero Background ${idx}`} 
-            className="w-full h-full object-cover"
-          />
-        </div>
-      ))}
-      {/* Light Overlay: changed from thick gradient to light black wash */}
-      <div className="absolute inset-0 bg-black/40"></div>
-    </>
-  );
-};
 
 const Features = () => {
   const featuresList = [
@@ -661,6 +658,7 @@ const ProductDetail = ({ product, onBack, onInquire, onProductClick }) => {
   );
 };
 
+// --- UPDATED ABOUT SECTION (Warm Theme) ---
 const AboutSection = () => (
   <div className="py-24 bg-stone-50">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -669,24 +667,44 @@ const AboutSection = () => (
         <div className="w-24 h-1.5 bg-orange-600 mx-auto mt-6 rounded-full hidden lg:block"></div>
       </div>
       
+      {/* 3 Images Factory Showcase: Updated Text and Images */}
       <div className="mb-20 grid grid-cols-1 md:grid-cols-3 gap-8">
-        {[
-          { img: "/factory-production-line.jpg", icon: <Factory />, title: "Production", sub: "Advanced Drawing Lines" },
-          { img: "/factory-weaving-process.jpg", icon: <Zap />, title: "Weaving", sub: "High-speed Looms" },
-          { img: "/factory-workshop-overview.jpg", icon: <Layers />, title: "Scale", sub: "Large-scale Manufacturing" }
-        ].map((item, idx) => (
-          <div key={idx} className="relative group overflow-hidden rounded-2xl shadow-lg h-72 border-b-4 border-orange-600">
-             <img className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000" 
-                  src={item.img} 
-                  alt={item.title} />
-             <div className="absolute inset-0 bg-gradient-to-t from-stone-900/90 via-stone-900/20 to-transparent flex items-end p-8">
-                <div className="text-white transform group-hover:-translate-y-2 transition-transform duration-300">
-                  <p className="font-bold text-2xl flex items-center gap-3 mb-1 text-orange-400">{item.icon} {item.title}</p>
-                  <p className="text-sm text-stone-200 font-medium tracking-wide">{item.sub}</p>
-                </div>
-             </div>
-          </div>
-        ))}
+        <div className="relative group overflow-hidden rounded-2xl shadow-lg h-72 border-b-4 border-orange-600">
+           {/* Image 1: Production */}
+           <img className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000" 
+                src="/factory-production-line.jpg" 
+                alt="Materials Production" />
+           <div className="absolute inset-0 bg-gradient-to-t from-stone-900/90 via-stone-900/20 to-transparent flex items-end p-8">
+              <div className="text-white transform group-hover:-translate-y-2 transition-transform duration-300">
+                <p className="font-bold text-2xl flex items-center gap-3 mb-1 text-orange-400"><Factory size={24}/> Materials Production</p>
+                <p className="text-sm text-stone-200 font-medium tracking-wide">Advanced Drawing lines for Fiberglass yarn / roving</p>
+              </div>
+           </div>
+        </div>
+        <div className="relative group overflow-hidden rounded-2xl shadow-lg h-72 border-b-4 border-orange-600">
+           {/* Image 2: Weaving (Updated to factory-workshop-overview.jpg) */}
+           <img className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000" 
+                src="/factory-workshop-overview.jpg" 
+                alt="Weaving Process" />
+           <div className="absolute inset-0 bg-gradient-to-t from-stone-900/90 via-stone-900/20 to-transparent flex items-end p-8">
+              <div className="text-white transform group-hover:-translate-y-2 transition-transform duration-300">
+                <p className="font-bold text-2xl flex items-center gap-3 mb-1 text-orange-400"><Zap size={24}/> Weaving</p>
+                <p className="text-sm text-stone-200 font-medium tracking-wide">High-speed Looms</p>
+              </div>
+           </div>
+        </div>
+        <div className="relative group overflow-hidden rounded-2xl shadow-lg h-72 border-b-4 border-orange-600">
+           {/* Image 3: Scale (Updated to factory-scale-production.jpg) */}
+           <img className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000" 
+                src="/factory-scale-production.jpg" 
+                alt="Large-scale Manufacturing" />
+           <div className="absolute inset-0 bg-gradient-to-t from-stone-900/90 via-stone-900/20 to-transparent flex items-end p-8">
+              <div className="text-white transform group-hover:-translate-y-2 transition-transform duration-300">
+                <p className="font-bold text-2xl flex items-center gap-3 mb-1 text-orange-400"><Layers size={24}/> Scale</p>
+                <p className="text-sm text-stone-200 font-medium tracking-wide">Large-scale Manufacturing</p>
+              </div>
+           </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
@@ -705,7 +723,8 @@ const AboutSection = () => (
               <span className="text-xs uppercase tracking-wider opacity-80 font-bold">Established</span>
            </div>
            <div className="bg-stone-800 text-white p-10 rounded-2xl text-center shadow-xl transform hover:-translate-y-1 transition-transform">
-              <span className="block text-5xl font-extrabold mb-2">10+</span>
+              {/* Updated Export Markets Count */}
+              <span className="block text-5xl font-extrabold mb-2">50+</span>
               <span className="text-xs uppercase tracking-wider opacity-80 font-bold">Export Markets</span>
            </div>
            <div className="bg-white text-stone-900 p-10 rounded-2xl text-center shadow-lg border border-stone-200 col-span-2">
@@ -745,6 +764,25 @@ const AboutSection = () => (
            </span>
            <span className="flex items-center gap-3 hover:text-orange-600 transition-colors cursor-default">
              <img src="https://flagcdn.com/32x24/cr.png" alt="Costa Rica" className="h-5 shadow-sm rounded-sm" /> Costa Rica
+           </span>
+           {/* Added New Markets */}
+           <span className="flex items-center gap-3 hover:text-orange-600 transition-colors cursor-default">
+             <img src="https://flagcdn.com/32x24/ca.png" alt="Canada" className="h-5 shadow-sm rounded-sm" /> Canada
+           </span>
+           <span className="flex items-center gap-3 hover:text-orange-600 transition-colors cursor-default">
+             <img src="https://flagcdn.com/32x24/au.png" alt="Australia" className="h-5 shadow-sm rounded-sm" /> Australia
+           </span>
+           <span className="flex items-center gap-3 hover:text-orange-600 transition-colors cursor-default">
+             <img src="https://flagcdn.com/32x24/md.png" alt="Moldova" className="h-5 shadow-sm rounded-sm" /> Moldova
+           </span>
+           <span className="flex items-center gap-3 hover:text-orange-600 transition-colors cursor-default">
+             <img src="https://flagcdn.com/32x24/tr.png" alt="Turkey" className="h-5 shadow-sm rounded-sm" /> Turkey
+           </span>
+           <span className="flex items-center gap-3 hover:text-orange-600 transition-colors cursor-default">
+             <img src="https://flagcdn.com/32x24/ae.png" alt="UAE" className="h-5 shadow-sm rounded-sm" /> UAE
+           </span>
+           <span className="flex items-center gap-3 hover:text-orange-600 transition-colors cursor-default text-stone-400 font-medium">
+             ... and many more
            </span>
         </div>
       </div>
@@ -820,7 +858,13 @@ const ContactSection = ({ initialMessage }) => {
                  </div>
                  <div className="flex items-center gap-4">
                    <div className="bg-stone-800 p-2 rounded-lg text-orange-500"><Phone size={24} /></div>
-                   <p className="text-sm text-stone-300 font-medium">+86 135 0578 7801</p>
+                   <div>
+                     <p className="text-sm text-stone-300 font-medium">+86 135 0578 7801</p>
+                     {/* ADDED: WhatsApp Indicator */}
+                     <p className="text-xs text-emerald-400 flex items-center gap-1 mt-1 font-bold">
+                       <MessageCircle size={12} /> WhatsApp Available
+                     </p>
+                   </div>
                  </div>
                </div>
              </div>
@@ -923,7 +967,7 @@ const Footer = ({ setPage }) => (
             Your trusted partner in high-performance fiberglass reinforcement and insulation solutions.
           </p>
           <div className="flex gap-4">
-             {/* FOOTER SOCIAL LINKS */}
+             {/* FOOTER SOCIAL LINKS - PROMINENT */}
              <a 
                href="https://www.facebook.com/kingzefiberglass" 
                target="_blank" 
